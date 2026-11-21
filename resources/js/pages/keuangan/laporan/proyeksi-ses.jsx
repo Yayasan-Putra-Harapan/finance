@@ -1,4 +1,13 @@
 import { Form, Head } from '@inertiajs/react';
+import {
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
+} from '@/components/ui/table';
+import { Label } from '@/components/ui/label';
 import { useRef } from 'react';
 import {
     CartesianGrid,
@@ -58,9 +67,9 @@ export default function ProyeksiSes({
                 action={proyeksiSes(unit.id).url}
                 className="flex items-center gap-2"
             >
-                <label className="text-sm font-medium" htmlFor="kategori">
+                <Label className="text-sm font-medium" htmlFor="kategori">
                     Kategori Pengeluaran
-                </label>
+                </Label>
                 <NativeSelect
                     id="kategori"
                     name="kategori"
@@ -121,33 +130,39 @@ export default function ProyeksiSes({
                     </div>
 
                     <div className="overflow-x-auto rounded-xl border md:w-fit">
-                        <table className="text-sm">
-                            <thead className="bg-muted/50 text-left">
-                                <tr>
-                                    <th className="p-3 font-medium">Alpha</th>
-                                    <th className="p-3 font-medium">MAPE</th>
-                                    <th className="p-3 font-medium">
+                        <Table className="text-sm">
+                            <TableHeader className="bg-muted/50 text-left">
+                                <TableRow>
+                                    <TableHead className="p-3 font-medium">
+                                        Alpha
+                                    </TableHead>
+                                    <TableHead className="p-3 font-medium">
+                                        MAPE
+                                    </TableHead>
+                                    <TableHead className="p-3 font-medium">
                                         Proyeksi
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody>
+                                    </TableHead>
+                                </TableRow>
+                            </TableHeader>
+                            <TableBody>
                                 {hasil.uji.map((u) => (
-                                    <tr
+                                    <TableRow
                                         key={u.alpha}
                                         className={`border-t ${u.alpha === hasil.alpha ? 'bg-muted/40 font-medium' : ''}`}
                                     >
-                                        <td className="p-3">{u.alpha}</td>
-                                        <td className="p-3">
+                                        <TableCell className="p-3">
+                                            {u.alpha}
+                                        </TableCell>
+                                        <TableCell className="p-3">
                                             {u.mape.toFixed(2)}%
-                                        </td>
-                                        <td className="p-3">
+                                        </TableCell>
+                                        <TableCell className="p-3">
                                             {formatRupiah(u.proyeksi)}
-                                        </td>
-                                    </tr>
+                                        </TableCell>
+                                    </TableRow>
                                 ))}
-                            </tbody>
-                        </table>
+                            </TableBody>
+                        </Table>
                     </div>
 
                     <Form
@@ -253,35 +268,41 @@ export default function ProyeksiSes({
                     title="Deret Historis Realisasi Bulanan"
                 />
                 <div className="mt-2 overflow-x-auto rounded-xl border">
-                    <table className="w-full text-sm">
-                        <thead className="bg-muted/50 text-left">
-                            <tr>
-                                <th className="p-3 font-medium">Periode</th>
-                                <th className="p-3 font-medium">Realisasi</th>
-                            </tr>
-                        </thead>
-                        <tbody>
+                    <Table className="w-full text-sm">
+                        <TableHeader className="bg-muted/50 text-left">
+                            <TableRow>
+                                <TableHead className="p-3 font-medium">
+                                    Periode
+                                </TableHead>
+                                <TableHead className="p-3 font-medium">
+                                    Realisasi
+                                </TableHead>
+                            </TableRow>
+                        </TableHeader>
+                        <TableBody>
                             {bulan.map(([periode, nilai]) => (
-                                <tr key={periode} className="border-t">
-                                    <td className="p-3">{periode}</td>
-                                    <td className="p-3">
+                                <TableRow key={periode} className="border-t">
+                                    <TableCell className="p-3">
+                                        {periode}
+                                    </TableCell>
+                                    <TableCell className="p-3">
                                         {formatRupiah(nilai)}
-                                    </td>
-                                </tr>
+                                    </TableCell>
+                                </TableRow>
                             ))}
                             {bulan.length === 0 && (
-                                <tr>
-                                    <td
+                                <TableRow>
+                                    <TableCell
                                         className="p-3 text-muted-foreground"
                                         colSpan={2}
                                     >
                                         Belum ada data historis untuk kategori
                                         ini.
-                                    </td>
-                                </tr>
+                                    </TableCell>
+                                </TableRow>
                             )}
-                        </tbody>
-                    </table>
+                        </TableBody>
+                    </Table>
                 </div>
             </div>
         </div>

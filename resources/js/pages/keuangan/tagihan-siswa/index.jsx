@@ -1,4 +1,13 @@
 import { Form, Head } from '@inertiajs/react';
+import {
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
+} from '@/components/ui/table';
+import { Label } from '@/components/ui/label';
 import { useState } from 'react';
 import TagihanSiswaController from '@/actions/App/Http/Controllers/Keuangan/TagihanSiswaController';
 import { UnitFilter } from '@/components/unit-filter';
@@ -47,12 +56,12 @@ export default function TagihanSiswaIndex({
                 {({ processing, errors }) => (
                     <>
                         <div className="grid gap-1.5">
-                            <label
+                            <Label
                                 className="text-sm font-medium"
                                 htmlFor="unit_id"
                             >
                                 Unit
-                            </label>
+                            </Label>
                             <NativeSelect
                                 id="unit_id"
                                 name="unit_id"
@@ -71,12 +80,12 @@ export default function TagihanSiswaIndex({
                             <InputError message={errors.unit_id} />
                         </div>
                         <div className="grid gap-1.5">
-                            <label
+                            <Label
                                 className="text-sm font-medium"
                                 htmlFor="kode_siswa"
                             >
                                 Kode Siswa
-                            </label>
+                            </Label>
                             <Input
                                 id="kode_siswa"
                                 name="kode_siswa"
@@ -86,22 +95,22 @@ export default function TagihanSiswaIndex({
                             <InputError message={errors.kode_siswa} />
                         </div>
                         <div className="grid gap-1.5">
-                            <label
+                            <Label
                                 className="text-sm font-medium"
                                 htmlFor="nama_siswa"
                             >
                                 Nama Siswa
-                            </label>
+                            </Label>
                             <Input id="nama_siswa" name="nama_siswa" required />
                             <InputError message={errors.nama_siswa} />
                         </div>
                         <div className="grid gap-1.5">
-                            <label
+                            <Label
                                 className="text-sm font-medium"
                                 htmlFor="jenis_tagihan"
                             >
                                 Jenis Tagihan
-                            </label>
+                            </Label>
                             <NativeSelect
                                 id="jenis_tagihan"
                                 name="jenis_tagihan"
@@ -118,12 +127,12 @@ export default function TagihanSiswaIndex({
                             </NativeSelect>
                         </div>
                         <div className="grid gap-1.5">
-                            <label
+                            <Label
                                 className="text-sm font-medium"
                                 htmlFor="periode"
                             >
                                 Periode
-                            </label>
+                            </Label>
                             <Input
                                 id="periode"
                                 name="periode"
@@ -133,12 +142,12 @@ export default function TagihanSiswaIndex({
                             <InputError message={errors.periode} />
                         </div>
                         <div className="grid gap-1.5">
-                            <label
+                            <Label
                                 className="text-sm font-medium"
                                 htmlFor="nominal"
                             >
                                 Nominal
-                            </label>
+                            </Label>
                             <Input
                                 id="nominal"
                                 name="nominal"
@@ -150,12 +159,12 @@ export default function TagihanSiswaIndex({
                             <InputError message={errors.nominal} />
                         </div>
                         <div className="grid gap-1.5">
-                            <label
+                            <Label
                                 className="text-sm font-medium"
                                 htmlFor="jatuh_tempo"
                             >
                                 Jatuh Tempo
-                            </label>
+                            </Label>
                             <Input
                                 id="jatuh_tempo"
                                 name="jatuh_tempo"
@@ -174,31 +183,47 @@ export default function TagihanSiswaIndex({
             </Form>
 
             <div className="overflow-x-auto rounded-xl border">
-                <table className="w-full text-sm">
-                    <thead className="bg-muted/50 text-left">
-                        <tr>
-                            <th className="p-3 font-medium">Unit</th>
-                            <th className="p-3 font-medium">Siswa</th>
-                            <th className="p-3 font-medium">Jenis</th>
-                            <th className="p-3 font-medium">Periode</th>
-                            <th className="p-3 font-medium">Nominal</th>
-                            <th className="p-3 font-medium">Sisa</th>
-                            <th className="p-3 font-medium">Status</th>
-                            <th className="p-3 font-medium">Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody>
+                <Table className="w-full text-sm">
+                    <TableHeader className="bg-muted/50 text-left">
+                        <TableRow>
+                            <TableHead className="p-3 font-medium">
+                                Unit
+                            </TableHead>
+                            <TableHead className="p-3 font-medium">
+                                Siswa
+                            </TableHead>
+                            <TableHead className="p-3 font-medium">
+                                Jenis
+                            </TableHead>
+                            <TableHead className="p-3 font-medium">
+                                Periode
+                            </TableHead>
+                            <TableHead className="p-3 font-medium">
+                                Nominal
+                            </TableHead>
+                            <TableHead className="p-3 font-medium">
+                                Sisa
+                            </TableHead>
+                            <TableHead className="p-3 font-medium">
+                                Status
+                            </TableHead>
+                            <TableHead className="p-3 font-medium">
+                                Aksi
+                            </TableHead>
+                        </TableRow>
+                    </TableHeader>
+                    <TableBody>
                         {tagihans.map((tagihan) => {
                             const accountsForUnit = kasBankAccounts.filter(
                                 (a) => a.unit_id === tagihan.unit_id,
                             );
                             if (editingId === tagihan.id) {
                                 return (
-                                    <tr
+                                    <TableRow
                                         key={tagihan.id}
                                         className="border-t bg-muted/30"
                                     >
-                                        <td colSpan={8} className="p-3">
+                                        <TableCell colSpan={8} className="p-3">
                                             <Form
                                                 {...TagihanSiswaController.update.form(
                                                     tagihan.id,
@@ -314,37 +339,41 @@ export default function TagihanSiswaIndex({
                                                     </>
                                                 )}
                                             </Form>
-                                        </td>
-                                    </tr>
+                                        </TableCell>
+                                    </TableRow>
                                 );
                             }
                             return (
-                                <tr
+                                <TableRow
                                     key={tagihan.id}
                                     className="border-t align-top"
                                 >
-                                    <td className="p-3">{tagihan.unit.nama}</td>
-                                    <td className="p-3">
+                                    <TableCell className="p-3">
+                                        {tagihan.unit.nama}
+                                    </TableCell>
+                                    <TableCell className="p-3">
                                         {tagihan.nama_siswa}
                                         <div className="text-xs text-muted-foreground">
                                             {tagihan.kode_siswa}
                                         </div>
-                                    </td>
-                                    <td className="p-3">
+                                    </TableCell>
+                                    <TableCell className="p-3">
                                         {JENIS_LABEL[tagihan.jenis_tagihan] ??
                                             tagihan.jenis_tagihan}
-                                    </td>
-                                    <td className="p-3">{tagihan.periode}</td>
-                                    <td className="p-3">
+                                    </TableCell>
+                                    <TableCell className="p-3">
+                                        {tagihan.periode}
+                                    </TableCell>
+                                    <TableCell className="p-3">
                                         {formatRupiah(tagihan.nominal)}
-                                    </td>
-                                    <td className="p-3">
+                                    </TableCell>
+                                    <TableCell className="p-3">
                                         {formatRupiah(tagihan.sisa_tagihan)}
-                                    </td>
-                                    <td className="p-3 capitalize">
+                                    </TableCell>
+                                    <TableCell className="p-3 capitalize">
                                         {tagihan.status.replace('_', ' ')}
-                                    </td>
-                                    <td className="p-3">
+                                    </TableCell>
+                                    <TableCell className="p-3">
                                         <div className="flex flex-col gap-2">
                                             {tagihan.status !== 'lunas' && (
                                                 <Form
@@ -484,22 +513,22 @@ export default function TagihanSiswaIndex({
                                                 )}
                                             </Form>
                                         </div>
-                                    </td>
-                                </tr>
+                                    </TableCell>
+                                </TableRow>
                             );
                         })}
                         {tagihans.length === 0 && (
-                            <tr>
-                                <td
+                            <TableRow>
+                                <TableCell
                                     className="p-3 text-muted-foreground"
                                     colSpan={8}
                                 >
                                     Belum ada tagihan siswa.
-                                </td>
-                            </tr>
+                                </TableCell>
+                            </TableRow>
                         )}
-                    </tbody>
-                </table>
+                    </TableBody>
+                </Table>
             </div>
         </div>
     );

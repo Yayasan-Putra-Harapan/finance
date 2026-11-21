@@ -1,4 +1,13 @@
 import { Form, Head } from '@inertiajs/react';
+import {
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
+} from '@/components/ui/table';
+import { Label } from '@/components/ui/label';
 import { useState } from 'react';
 import KasBankAccountController from '@/actions/App/Http/Controllers/Keuangan/KasBankAccountController';
 import { UnitFilter } from '@/components/unit-filter';
@@ -35,12 +44,12 @@ export default function KasBankIndex({ accounts, units, filterUnitId }) {
                 {({ processing, errors }) => (
                     <>
                         <div className="grid gap-1.5">
-                            <label
+                            <Label
                                 className="text-sm font-medium"
                                 htmlFor="unit_id"
                             >
                                 Unit
-                            </label>
+                            </Label>
                             <NativeSelect
                                 id="unit_id"
                                 name="unit_id"
@@ -59,12 +68,12 @@ export default function KasBankIndex({ accounts, units, filterUnitId }) {
                             <InputError message={errors.unit_id} />
                         </div>
                         <div className="grid gap-1.5">
-                            <label
+                            <Label
                                 className="text-sm font-medium"
                                 htmlFor="nama"
                             >
                                 Nama Akun
-                            </label>
+                            </Label>
                             <Input
                                 id="nama"
                                 name="nama"
@@ -74,12 +83,12 @@ export default function KasBankIndex({ accounts, units, filterUnitId }) {
                             <InputError message={errors.nama} />
                         </div>
                         <div className="grid gap-1.5">
-                            <label
+                            <Label
                                 className="text-sm font-medium"
                                 htmlFor="jenis"
                             >
                                 Jenis
-                            </label>
+                            </Label>
                             <NativeSelect
                                 id="jenis"
                                 name="jenis"
@@ -92,12 +101,12 @@ export default function KasBankIndex({ accounts, units, filterUnitId }) {
                             <InputError message={errors.jenis} />
                         </div>
                         <div className="grid gap-1.5">
-                            <label
+                            <Label
                                 className="text-sm font-medium"
                                 htmlFor="nomor_rekening"
                             >
                                 No. Rekening
-                            </label>
+                            </Label>
                             <Input
                                 id="nomor_rekening"
                                 name="nomor_rekening"
@@ -105,12 +114,12 @@ export default function KasBankIndex({ accounts, units, filterUnitId }) {
                             />
                         </div>
                         <div className="grid gap-1.5">
-                            <label
+                            <Label
                                 className="text-sm font-medium"
                                 htmlFor="saldo"
                             >
                                 Saldo Awal
-                            </label>
+                            </Label>
                             <Input
                                 id="saldo"
                                 name="saldo"
@@ -130,25 +139,37 @@ export default function KasBankIndex({ accounts, units, filterUnitId }) {
             </Form>
 
             <div className="overflow-x-auto rounded-xl border">
-                <table className="w-full text-sm">
-                    <thead className="bg-muted/50 text-left">
-                        <tr>
-                            <th className="p-3 font-medium">Unit</th>
-                            <th className="p-3 font-medium">Nama Akun</th>
-                            <th className="p-3 font-medium">Jenis</th>
-                            <th className="p-3 font-medium">No. Rekening</th>
-                            <th className="p-3 font-medium">Saldo</th>
-                            <th className="p-3 font-medium">Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody>
+                <Table className="w-full text-sm">
+                    <TableHeader className="bg-muted/50 text-left">
+                        <TableRow>
+                            <TableHead className="p-3 font-medium">
+                                Unit
+                            </TableHead>
+                            <TableHead className="p-3 font-medium">
+                                Nama Akun
+                            </TableHead>
+                            <TableHead className="p-3 font-medium">
+                                Jenis
+                            </TableHead>
+                            <TableHead className="p-3 font-medium">
+                                No. Rekening
+                            </TableHead>
+                            <TableHead className="p-3 font-medium">
+                                Saldo
+                            </TableHead>
+                            <TableHead className="p-3 font-medium">
+                                Aksi
+                            </TableHead>
+                        </TableRow>
+                    </TableHeader>
+                    <TableBody>
                         {accounts.map((account) =>
                             editingId === account.id ? (
-                                <tr
+                                <TableRow
                                     key={account.id}
                                     className="border-t bg-muted/30"
                                 >
-                                    <td colSpan={6} className="p-3">
+                                    <TableCell colSpan={6} className="p-3">
                                         <Form
                                             {...KasBankAccountController.update.form(
                                                 account.id,
@@ -212,24 +233,28 @@ export default function KasBankIndex({ accounts, units, filterUnitId }) {
                                                 </>
                                             )}
                                         </Form>
-                                    </td>
-                                </tr>
+                                    </TableCell>
+                                </TableRow>
                             ) : (
-                                <tr key={account.id} className="border-t">
-                                    <td className="p-3">{account.unit.nama}</td>
-                                    <td className="p-3">{account.nama}</td>
-                                    <td className="p-3">
+                                <TableRow key={account.id} className="border-t">
+                                    <TableCell className="p-3">
+                                        {account.unit.nama}
+                                    </TableCell>
+                                    <TableCell className="p-3">
+                                        {account.nama}
+                                    </TableCell>
+                                    <TableCell className="p-3">
                                         {account.jenis === 'kas'
                                             ? 'Kas'
                                             : 'Bank'}
-                                    </td>
-                                    <td className="p-3">
+                                    </TableCell>
+                                    <TableCell className="p-3">
                                         {account.nomor_rekening ?? '-'}
-                                    </td>
-                                    <td className="p-3">
+                                    </TableCell>
+                                    <TableCell className="p-3">
                                         {formatRupiah(account.saldo)}
-                                    </td>
-                                    <td className="p-3">
+                                    </TableCell>
+                                    <TableCell className="p-3">
                                         <div className="flex items-center gap-2">
                                             <Button
                                                 size="sm"
@@ -265,22 +290,22 @@ export default function KasBankIndex({ accounts, units, filterUnitId }) {
                                                 )}
                                             </Form>
                                         </div>
-                                    </td>
-                                </tr>
+                                    </TableCell>
+                                </TableRow>
                             ),
                         )}
                         {accounts.length === 0 && (
-                            <tr>
-                                <td
+                            <TableRow>
+                                <TableCell
                                     className="p-3 text-muted-foreground"
                                     colSpan={6}
                                 >
                                     Belum ada akun kas/bank.
-                                </td>
-                            </tr>
+                                </TableCell>
+                            </TableRow>
                         )}
-                    </tbody>
-                </table>
+                    </TableBody>
+                </Table>
             </div>
         </div>
     );

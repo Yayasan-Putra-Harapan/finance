@@ -1,4 +1,12 @@
 import { Head } from '@inertiajs/react';
+import {
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
+} from '@/components/ui/table';
 import Heading from '@/components/heading';
 import { Pagination } from '@/components/pagination';
 import { UnitFilter } from '@/components/unit-filter';
@@ -46,48 +54,66 @@ export default function TransaksiRiwayat({ riwayats, units, filterUnitId }) {
                 action={riwayat().url}
             />
             <div className="overflow-x-auto rounded-xl border">
-                <table className="w-full text-sm">
-                    <thead className="bg-muted/50 text-left">
-                        <tr>
-                            <th className="p-3 font-medium">Waktu</th>
-                            <th className="p-3 font-medium">Unit</th>
-                            <th className="p-3 font-medium">Transaksi</th>
-                            <th className="p-3 font-medium">Aksi</th>
-                            <th className="p-3 font-medium">Oleh</th>
-                            <th className="p-3 font-medium">Perubahan</th>
-                        </tr>
-                    </thead>
-                    <tbody>
+                <Table className="w-full text-sm">
+                    <TableHeader className="bg-muted/50 text-left">
+                        <TableRow>
+                            <TableHead className="p-3 font-medium">
+                                Waktu
+                            </TableHead>
+                            <TableHead className="p-3 font-medium">
+                                Unit
+                            </TableHead>
+                            <TableHead className="p-3 font-medium">
+                                Transaksi
+                            </TableHead>
+                            <TableHead className="p-3 font-medium">
+                                Aksi
+                            </TableHead>
+                            <TableHead className="p-3 font-medium">
+                                Oleh
+                            </TableHead>
+                            <TableHead className="p-3 font-medium">
+                                Perubahan
+                            </TableHead>
+                        </TableRow>
+                    </TableHeader>
+                    <TableBody>
                         {riwayats.data.map((r) => (
-                            <tr key={r.id} className="border-t">
-                                <td className="p-3 text-xs">
+                            <TableRow key={r.id} className="border-t">
+                                <TableCell className="p-3 text-xs">
                                     {new Date(r.created_at).toLocaleString(
                                         'id-ID',
                                     )}
-                                </td>
-                                <td className="p-3">{r.unit?.nama ?? '-'}</td>
-                                <td className="p-3">#{r.transaksi_id}</td>
-                                <td className="p-3 font-medium capitalize">
+                                </TableCell>
+                                <TableCell className="p-3">
+                                    {r.unit?.nama ?? '-'}
+                                </TableCell>
+                                <TableCell className="p-3">
+                                    #{r.transaksi_id}
+                                </TableCell>
+                                <TableCell className="p-3 font-medium capitalize">
                                     {r.aksi}
-                                </td>
-                                <td className="p-3">{r.user?.name ?? '-'}</td>
-                                <td className="p-3 text-xs text-muted-foreground">
+                                </TableCell>
+                                <TableCell className="p-3">
+                                    {r.user?.name ?? '-'}
+                                </TableCell>
+                                <TableCell className="p-3 text-xs text-muted-foreground">
                                     {ringkas(r)}
-                                </td>
-                            </tr>
+                                </TableCell>
+                            </TableRow>
                         ))}
                         {riwayats.data.length === 0 && (
-                            <tr>
-                                <td
+                            <TableRow>
+                                <TableCell
                                     className="p-3 text-muted-foreground"
                                     colSpan={6}
                                 >
                                     Belum ada riwayat.
-                                </td>
-                            </tr>
+                                </TableCell>
+                            </TableRow>
                         )}
-                    </tbody>
-                </table>
+                    </TableBody>
+                </Table>
             </div>
             <Pagination links={riwayats.links} />
         </div>

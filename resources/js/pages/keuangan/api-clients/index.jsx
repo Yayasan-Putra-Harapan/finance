@@ -1,4 +1,14 @@
 import { Form, Head, router } from '@inertiajs/react';
+import { Checkbox } from '@/components/ui/checkbox';
+import {
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
+} from '@/components/ui/table';
+import { Label } from '@/components/ui/label';
 import { useEffect, useState } from 'react';
 import ApiClientController from '@/actions/App/Http/Controllers/Keuangan/ApiClientController';
 import Heading from '@/components/heading';
@@ -37,21 +47,19 @@ function AbilityCheckboxes({ abilityOptions, defaultSelected = [], errors }) {
             <span className="text-sm font-medium">Akses Data (Ability)</span>
             <div className="grid gap-1.5 sm:grid-cols-2">
                 {abilityOptions.map((ability) => (
-                    <label
+                    <Label
                         key={ability.value}
                         className="flex items-center gap-2 text-sm"
                     >
-                        <input
-                            type="checkbox"
+                        <Checkbox
                             name="abilities[]"
                             value={ability.value}
                             defaultChecked={defaultSelected.includes(
                                 ability.value,
                             )}
-                            className="size-4 rounded border-input"
                         />
                         {ability.label}
-                    </label>
+                    </Label>
                 ))}
             </div>
             <InputError message={errors?.abilities} />
@@ -138,22 +146,22 @@ export default function ApiClientsIndex({ clients, abilityOptions }) {
                 {({ processing, errors }) => (
                     <>
                         <div className="grid gap-1.5 md:col-span-1">
-                            <label
+                            <Label
                                 className="text-sm font-medium"
                                 htmlFor="nama"
                             >
                                 Nama Klien
-                            </label>
+                            </Label>
                             <Input id="nama" name="nama" required />
                             <InputError message={errors.nama} />
                         </div>
                         <div className="grid gap-1.5 md:col-span-1">
-                            <label
+                            <Label
                                 className="text-sm font-medium"
                                 htmlFor="deskripsi"
                             >
                                 Deskripsi
-                            </label>
+                            </Label>
                             <Input id="deskripsi" name="deskripsi" />
                             <InputError message={errors.deskripsi} />
                         </div>
@@ -173,27 +181,37 @@ export default function ApiClientsIndex({ clients, abilityOptions }) {
             </Form>
 
             <div className="overflow-x-auto rounded-xl border">
-                <table className="w-full text-sm">
-                    <thead className="bg-muted/50 text-left">
-                        <tr>
-                            <th className="p-3 font-medium">Nama</th>
-                            <th className="p-3 font-medium">Deskripsi</th>
-                            <th className="p-3 font-medium">Ability</th>
-                            <th className="p-3 font-medium">Status</th>
-                            <th className="p-3 font-medium">
+                <Table className="w-full text-sm">
+                    <TableHeader className="bg-muted/50 text-left">
+                        <TableRow>
+                            <TableHead className="p-3 font-medium">
+                                Nama
+                            </TableHead>
+                            <TableHead className="p-3 font-medium">
+                                Deskripsi
+                            </TableHead>
+                            <TableHead className="p-3 font-medium">
+                                Ability
+                            </TableHead>
+                            <TableHead className="p-3 font-medium">
+                                Status
+                            </TableHead>
+                            <TableHead className="p-3 font-medium">
                                 Terakhir Dipakai
-                            </th>
-                            <th className="p-3 font-medium">Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody>
+                            </TableHead>
+                            <TableHead className="p-3 font-medium">
+                                Aksi
+                            </TableHead>
+                        </TableRow>
+                    </TableHeader>
+                    <TableBody>
                         {clients.map((client) =>
                             editingId === client.id ? (
-                                <tr
+                                <TableRow
                                     key={client.id}
                                     className="border-t bg-muted/30"
                                 >
-                                    <td colSpan={6} className="p-3">
+                                    <TableCell colSpan={6} className="p-3">
                                         <Form
                                             {...ApiClientController.update.form(
                                                 client.id,
@@ -262,21 +280,23 @@ export default function ApiClientsIndex({ clients, abilityOptions }) {
                                                 </>
                                             )}
                                         </Form>
-                                    </td>
-                                </tr>
+                                    </TableCell>
+                                </TableRow>
                             ) : (
-                                <tr key={client.id} className="border-t">
-                                    <td className="p-3">{client.nama}</td>
-                                    <td className="p-3 text-muted-foreground">
+                                <TableRow key={client.id} className="border-t">
+                                    <TableCell className="p-3">
+                                        {client.nama}
+                                    </TableCell>
+                                    <TableCell className="p-3 text-muted-foreground">
                                         {client.deskripsi ?? '-'}
-                                    </td>
-                                    <td className="p-3">
+                                    </TableCell>
+                                    <TableCell className="p-3">
                                         <AbilityBadges
                                             abilities={client.abilities}
                                             abilityOptions={abilityOptions}
                                         />
-                                    </td>
-                                    <td className="p-3">
+                                    </TableCell>
+                                    <TableCell className="p-3">
                                         {client.is_aktif ? (
                                             <span className="text-green-600">
                                                 Aktif
@@ -286,11 +306,11 @@ export default function ApiClientsIndex({ clients, abilityOptions }) {
                                                 Nonaktif
                                             </span>
                                         )}
-                                    </td>
-                                    <td className="p-3">
+                                    </TableCell>
+                                    <TableCell className="p-3">
                                         {client.last_used_at ?? '-'}
-                                    </td>
-                                    <td className="p-3">
+                                    </TableCell>
+                                    <TableCell className="p-3">
                                         <div className="flex flex-wrap items-center gap-2">
                                             <Button
                                                 type="button"
@@ -369,22 +389,22 @@ export default function ApiClientsIndex({ clients, abilityOptions }) {
                                                 )}
                                             </Form>
                                         </div>
-                                    </td>
-                                </tr>
+                                    </TableCell>
+                                </TableRow>
                             ),
                         )}
                         {clients.length === 0 && (
-                            <tr>
-                                <td
+                            <TableRow>
+                                <TableCell
                                     className="p-3 text-muted-foreground"
                                     colSpan={6}
                                 >
                                     Belum ada klien API.
-                                </td>
-                            </tr>
+                                </TableCell>
+                            </TableRow>
                         )}
-                    </tbody>
-                </table>
+                    </TableBody>
+                </Table>
             </div>
         </div>
     );

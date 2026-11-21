@@ -1,4 +1,5 @@
 import { Form, Head, Link } from '@inertiajs/react';
+import { Label } from '@/components/ui/label';
 import TransaksiController from '@/actions/App/Http/Controllers/Keuangan/TransaksiController';
 import Heading from '@/components/heading';
 import InputError from '@/components/input-error';
@@ -11,9 +12,9 @@ import { index as transaksiIndex } from '@/routes/keuangan/transaksi';
 function Field({ id, label, error, children }) {
     return (
         <div className="grid gap-1.5">
-            <label className="text-sm font-medium" htmlFor={id}>
+            <Label className="text-sm font-medium" htmlFor={id}>
                 {label}
-            </label>
+            </Label>
             {children}
             <InputError message={error} />
         </div>

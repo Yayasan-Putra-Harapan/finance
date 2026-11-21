@@ -1,5 +1,13 @@
 import { Head } from '@inertiajs/react';
 import {
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
+} from '@/components/ui/table';
+import {
     Bar,
     BarChart,
     CartesianGrid,
@@ -72,28 +80,36 @@ export default function LaporanPerUnit({
             <div>
                 <Heading variant="small" title="Saldo Kas & Bank" />
                 <div className="mt-2 overflow-x-auto rounded-xl border">
-                    <table className="w-full text-sm">
-                        <thead className="bg-muted/50 text-left">
-                            <tr>
-                                <th className="p-3 font-medium">Nama Akun</th>
-                                <th className="p-3 font-medium">Jenis</th>
-                                <th className="p-3 font-medium">Saldo</th>
-                            </tr>
-                        </thead>
-                        <tbody>
+                    <Table className="w-full text-sm">
+                        <TableHeader className="bg-muted/50 text-left">
+                            <TableRow>
+                                <TableHead className="p-3 font-medium">
+                                    Nama Akun
+                                </TableHead>
+                                <TableHead className="p-3 font-medium">
+                                    Jenis
+                                </TableHead>
+                                <TableHead className="p-3 font-medium">
+                                    Saldo
+                                </TableHead>
+                            </TableRow>
+                        </TableHeader>
+                        <TableBody>
                             {saldoKasBank.map((a) => (
-                                <tr key={a.id} className="border-t">
-                                    <td className="p-3">{a.nama}</td>
-                                    <td className="p-3">
+                                <TableRow key={a.id} className="border-t">
+                                    <TableCell className="p-3">
+                                        {a.nama}
+                                    </TableCell>
+                                    <TableCell className="p-3">
                                         {a.jenis === 'kas' ? 'Kas' : 'Bank'}
-                                    </td>
-                                    <td className="p-3">
+                                    </TableCell>
+                                    <TableCell className="p-3">
                                         {formatRupiah(a.saldo)}
-                                    </td>
-                                </tr>
+                                    </TableCell>
+                                </TableRow>
                             ))}
-                        </tbody>
-                    </table>
+                        </TableBody>
+                    </Table>
                 </div>
             </div>
 
@@ -193,84 +209,102 @@ export default function LaporanPerUnit({
             <div>
                 <Heading variant="small" title="Rekap per Kategori" />
                 <div className="mt-2 overflow-x-auto rounded-xl border">
-                    <table className="w-full text-sm">
-                        <thead className="bg-muted/50 text-left">
-                            <tr>
-                                <th className="p-3 font-medium">Jenis</th>
-                                <th className="p-3 font-medium">Kategori</th>
-                                <th className="p-3 font-medium">Total</th>
-                            </tr>
-                        </thead>
-                        <tbody>
+                    <Table className="w-full text-sm">
+                        <TableHeader className="bg-muted/50 text-left">
+                            <TableRow>
+                                <TableHead className="p-3 font-medium">
+                                    Jenis
+                                </TableHead>
+                                <TableHead className="p-3 font-medium">
+                                    Kategori
+                                </TableHead>
+                                <TableHead className="p-3 font-medium">
+                                    Total
+                                </TableHead>
+                            </TableRow>
+                        </TableHeader>
+                        <TableBody>
                             {perKategori.map((row, i) => (
-                                <tr key={i} className="border-t">
-                                    <td className="p-3 capitalize">
+                                <TableRow key={i} className="border-t">
+                                    <TableCell className="p-3 capitalize">
                                         {row.jenis}
-                                    </td>
-                                    <td className="p-3">{row.kategori}</td>
-                                    <td className="p-3">
+                                    </TableCell>
+                                    <TableCell className="p-3">
+                                        {row.kategori}
+                                    </TableCell>
+                                    <TableCell className="p-3">
                                         {formatRupiah(row.total)}
-                                    </td>
-                                </tr>
+                                    </TableCell>
+                                </TableRow>
                             ))}
                             {perKategori.length === 0 && (
-                                <tr>
-                                    <td
+                                <TableRow>
+                                    <TableCell
                                         className="p-3 text-muted-foreground"
                                         colSpan={3}
                                     >
                                         Belum ada transaksi pada periode ini.
-                                    </td>
-                                </tr>
+                                    </TableCell>
+                                </TableRow>
                             )}
-                        </tbody>
-                    </table>
+                        </TableBody>
+                    </Table>
                 </div>
             </div>
 
             <div>
                 <Heading variant="small" title="Buku Besar" />
                 <div className="mt-2 max-h-96 overflow-x-auto overflow-y-auto rounded-xl border">
-                    <table className="w-full text-sm">
-                        <thead className="bg-muted/50 text-left">
-                            <tr>
-                                <th className="p-3 font-medium">Tanggal</th>
-                                <th className="p-3 font-medium">Akun</th>
-                                <th className="p-3 font-medium">Debit</th>
-                                <th className="p-3 font-medium">Kredit</th>
-                            </tr>
-                        </thead>
-                        <tbody>
+                    <Table className="w-full text-sm">
+                        <TableHeader className="bg-muted/50 text-left">
+                            <TableRow>
+                                <TableHead className="p-3 font-medium">
+                                    Tanggal
+                                </TableHead>
+                                <TableHead className="p-3 font-medium">
+                                    Akun
+                                </TableHead>
+                                <TableHead className="p-3 font-medium">
+                                    Debit
+                                </TableHead>
+                                <TableHead className="p-3 font-medium">
+                                    Kredit
+                                </TableHead>
+                            </TableRow>
+                        </TableHeader>
+                        <TableBody>
                             {bukuBesar.map((row) => (
-                                <tr key={row.id} className="border-t">
-                                    <td className="p-3 text-xs">
+                                <TableRow key={row.id} className="border-t">
+                                    <TableCell className="p-3 text-xs">
                                         {row.tanggal}
-                                    </td>
-                                    <td className="p-3">{row.akun}</td>
-                                    <td className="p-3">
+                                    </TableCell>
+                                    <TableCell className="p-3">
+                                        {row.akun}
+                                    </TableCell>
+                                    <TableCell className="p-3">
                                         {Number(row.debit) > 0
                                             ? formatRupiah(row.debit)
                                             : '-'}
-                                    </td>
-                                    <td className="p-3">
+                                    </TableCell>
+                                    <TableCell className="p-3">
                                         {Number(row.kredit) > 0
                                             ? formatRupiah(row.kredit)
                                             : '-'}
-                                    </td>
-                                </tr>
+                                    </TableCell>
+                                </TableRow>
                             ))}
                             {bukuBesar.length === 0 && (
-                                <tr>
-                                    <td
+                                <TableRow>
+                                    <TableCell
                                         className="p-3 text-muted-foreground"
                                         colSpan={4}
                                     >
                                         Belum ada jurnal pada periode ini.
-                                    </td>
-                                </tr>
+                                    </TableCell>
+                                </TableRow>
                             )}
-                        </tbody>
-                    </table>
+                        </TableBody>
+                    </Table>
                 </div>
             </div>
         </div>

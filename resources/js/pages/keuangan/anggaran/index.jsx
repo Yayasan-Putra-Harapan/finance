@@ -1,4 +1,13 @@
 import { Form, Head, usePage } from '@inertiajs/react';
+import {
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
+} from '@/components/ui/table';
+import { Label } from '@/components/ui/label';
 import { useState } from 'react';
 import AnggaranController from '@/actions/App/Http/Controllers/Keuangan/AnggaranController';
 import { UnitFilter } from '@/components/unit-filter';
@@ -45,12 +54,12 @@ export default function AnggaranIndex({ anggarans, units, filterUnitId }) {
                     {({ processing, errors }) => (
                         <>
                             <div className="grid gap-1.5">
-                                <label
+                                <Label
                                     className="text-sm font-medium"
                                     htmlFor="unit_id"
                                 >
                                     Unit
-                                </label>
+                                </Label>
                                 <NativeSelect
                                     id="unit_id"
                                     name="unit_id"
@@ -69,12 +78,12 @@ export default function AnggaranIndex({ anggarans, units, filterUnitId }) {
                                 <InputError message={errors.unit_id} />
                             </div>
                             <div className="grid gap-1.5">
-                                <label
+                                <Label
                                     className="text-sm font-medium"
                                     htmlFor="jenis"
                                 >
                                     Jenis
-                                </label>
+                                </Label>
                                 <NativeSelect
                                     id="jenis"
                                     name="jenis"
@@ -88,12 +97,12 @@ export default function AnggaranIndex({ anggarans, units, filterUnitId }) {
                                 </NativeSelect>
                             </div>
                             <div className="grid gap-1.5">
-                                <label
+                                <Label
                                     className="text-sm font-medium"
                                     htmlFor="kategori"
                                 >
                                     Kategori
-                                </label>
+                                </Label>
                                 <Input
                                     id="kategori"
                                     name="kategori"
@@ -103,12 +112,12 @@ export default function AnggaranIndex({ anggarans, units, filterUnitId }) {
                                 <InputError message={errors.kategori} />
                             </div>
                             <div className="grid gap-1.5">
-                                <label
+                                <Label
                                     className="text-sm font-medium"
                                     htmlFor="pagu"
                                 >
                                     Pagu
-                                </label>
+                                </Label>
                                 <Input
                                     id="pagu"
                                     name="pagu"
@@ -120,12 +129,12 @@ export default function AnggaranIndex({ anggarans, units, filterUnitId }) {
                                 <InputError message={errors.pagu} />
                             </div>
                             <div className="grid gap-1.5">
-                                <label
+                                <Label
                                     className="text-sm font-medium"
                                     htmlFor="periode_mulai"
                                 >
                                     Periode Mulai
-                                </label>
+                                </Label>
                                 <Input
                                     id="periode_mulai"
                                     name="periode_mulai"
@@ -135,12 +144,12 @@ export default function AnggaranIndex({ anggarans, units, filterUnitId }) {
                                 <InputError message={errors.periode_mulai} />
                             </div>
                             <div className="grid gap-1.5">
-                                <label
+                                <Label
                                     className="text-sm font-medium"
                                     htmlFor="periode_selesai"
                                 >
                                     Periode Selesai
-                                </label>
+                                </Label>
                                 <Input
                                     id="periode_selesai"
                                     name="periode_selesai"
@@ -150,12 +159,12 @@ export default function AnggaranIndex({ anggarans, units, filterUnitId }) {
                                 <InputError message={errors.periode_selesai} />
                             </div>
                             <div className="grid gap-1.5 md:col-span-2">
-                                <label
+                                <Label
                                     className="text-sm font-medium"
                                     htmlFor="catatan"
                                 >
                                     Catatan
-                                </label>
+                                </Label>
                                 <Input
                                     id="catatan"
                                     name="catatan"
@@ -176,25 +185,46 @@ export default function AnggaranIndex({ anggarans, units, filterUnitId }) {
             )}
 
             <div className="overflow-x-auto rounded-xl border">
-                <table className="w-full text-sm">
-                    <thead className="bg-muted/50 text-left">
-                        <tr>
-                            <th className="p-3 font-medium">Unit</th>
-                            <th className="p-3 font-medium">Jenis</th>
-                            <th className="p-3 font-medium">Kategori</th>
-                            <th className="p-3 font-medium">Periode</th>
-                            <th className="p-3 font-medium">Pagu</th>
-                            <th className="p-3 font-medium">Realisasi</th>
-                            <th className="p-3 font-medium">Status RAB</th>
-                            <th className="p-3 font-medium">EWS</th>
-                            <th className="p-3 font-medium">Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody>
+                <Table className="w-full text-sm">
+                    <TableHeader className="bg-muted/50 text-left">
+                        <TableRow>
+                            <TableHead className="p-3 font-medium">
+                                Unit
+                            </TableHead>
+                            <TableHead className="p-3 font-medium">
+                                Jenis
+                            </TableHead>
+                            <TableHead className="p-3 font-medium">
+                                Kategori
+                            </TableHead>
+                            <TableHead className="p-3 font-medium">
+                                Periode
+                            </TableHead>
+                            <TableHead className="p-3 font-medium">
+                                Pagu
+                            </TableHead>
+                            <TableHead className="p-3 font-medium">
+                                Realisasi
+                            </TableHead>
+                            <TableHead className="p-3 font-medium">
+                                Status RAB
+                            </TableHead>
+                            <TableHead className="p-3 font-medium">
+                                EWS
+                            </TableHead>
+                            <TableHead className="p-3 font-medium">
+                                Aksi
+                            </TableHead>
+                        </TableRow>
+                    </TableHeader>
+                    <TableBody>
                         {anggarans.map((a) =>
                             editingId === a.id ? (
-                                <tr key={a.id} className="border-t bg-muted/30">
-                                    <td colSpan={9} className="p-3">
+                                <TableRow
+                                    key={a.id}
+                                    className="border-t bg-muted/30"
+                                >
+                                    <TableCell colSpan={9} className="p-3">
                                         <Form
                                             {...AnggaranController.update.form(
                                                 a.id,
@@ -260,37 +290,44 @@ export default function AnggaranIndex({ anggarans, units, filterUnitId }) {
                                                 </>
                                             )}
                                         </Form>
-                                    </td>
-                                </tr>
+                                    </TableCell>
+                                </TableRow>
                             ) : (
-                                <tr key={a.id} className="border-t align-top">
-                                    <td className="p-3">{a.unit.nama}</td>
-                                    <td className="p-3 capitalize">
+                                <TableRow
+                                    key={a.id}
+                                    className="border-t align-top"
+                                >
+                                    <TableCell className="p-3">
+                                        {a.unit.nama}
+                                    </TableCell>
+                                    <TableCell className="p-3 capitalize">
                                         {a.jenis}
-                                    </td>
-                                    <td className="p-3">{a.kategori}</td>
-                                    <td className="p-3 text-xs">
+                                    </TableCell>
+                                    <TableCell className="p-3">
+                                        {a.kategori}
+                                    </TableCell>
+                                    <TableCell className="p-3 text-xs">
                                         {a.periode_mulai} &ndash;{' '}
                                         {a.periode_selesai}
-                                    </td>
-                                    <td className="p-3">
+                                    </TableCell>
+                                    <TableCell className="p-3">
                                         {formatRupiah(a.pagu)}
-                                    </td>
-                                    <td className="p-3">
+                                    </TableCell>
+                                    <TableCell className="p-3">
                                         {formatRupiah(a.realisasi)}
-                                    </td>
-                                    <td className="p-3">
+                                    </TableCell>
+                                    <TableCell className="p-3">
                                         {STATUS_LABEL[a.status] ?? a.status}
-                                    </td>
-                                    <td className="p-3">
+                                    </TableCell>
+                                    <TableCell className="p-3">
                                         {a.jenis === 'pengeluaran' &&
                                             a.status === 'disetujui' && (
                                                 <EwsBadge
                                                     status={a.status_ews}
                                                 />
                                             )}
-                                    </td>
-                                    <td className="p-3">
+                                    </TableCell>
+                                    <TableCell className="p-3">
                                         <div className="flex flex-col gap-2">
                                             {a.status === 'draft' &&
                                                 (role === 'admin' ||
@@ -401,22 +438,22 @@ export default function AnggaranIndex({ anggarans, units, filterUnitId }) {
                                                     </Form>
                                                 )}
                                         </div>
-                                    </td>
-                                </tr>
+                                    </TableCell>
+                                </TableRow>
                             ),
                         )}
                         {anggarans.length === 0 && (
-                            <tr>
-                                <td
+                            <TableRow>
+                                <TableCell
                                     className="p-3 text-muted-foreground"
                                     colSpan={9}
                                 >
                                     Belum ada RAB.
-                                </td>
-                            </tr>
+                                </TableCell>
+                            </TableRow>
                         )}
-                    </tbody>
-                </table>
+                    </TableBody>
+                </Table>
             </div>
         </div>
     );

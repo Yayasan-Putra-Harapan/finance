@@ -1,4 +1,13 @@
 import { Form, Head } from '@inertiajs/react';
+import {
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
+} from '@/components/ui/table';
+import { Label } from '@/components/ui/label';
 import { useState } from 'react';
 import PenggajianController from '@/actions/App/Http/Controllers/Keuangan/PenggajianController';
 import { UnitFilter } from '@/components/unit-filter';
@@ -40,12 +49,12 @@ export default function PenggajianIndex({
                 {({ processing, errors }) => (
                     <>
                         <div className="grid gap-1.5">
-                            <label
+                            <Label
                                 className="text-sm font-medium"
                                 htmlFor="unit_id"
                             >
                                 Unit
-                            </label>
+                            </Label>
                             <NativeSelect
                                 id="unit_id"
                                 name="unit_id"
@@ -64,12 +73,12 @@ export default function PenggajianIndex({
                             <InputError message={errors.unit_id} />
                         </div>
                         <div className="grid gap-1.5">
-                            <label
+                            <Label
                                 className="text-sm font-medium"
                                 htmlFor="kode_pegawai"
                             >
                                 Kode Pegawai
-                            </label>
+                            </Label>
                             <Input
                                 id="kode_pegawai"
                                 name="kode_pegawai"
@@ -77,12 +86,12 @@ export default function PenggajianIndex({
                             />
                         </div>
                         <div className="grid gap-1.5">
-                            <label
+                            <Label
                                 className="text-sm font-medium"
                                 htmlFor="nama_pegawai"
                             >
                                 Nama Pegawai
-                            </label>
+                            </Label>
                             <Input
                                 id="nama_pegawai"
                                 name="nama_pegawai"
@@ -91,12 +100,12 @@ export default function PenggajianIndex({
                             <InputError message={errors.nama_pegawai} />
                         </div>
                         <div className="grid gap-1.5">
-                            <label
+                            <Label
                                 className="text-sm font-medium"
                                 htmlFor="periode"
                             >
                                 Periode
-                            </label>
+                            </Label>
                             <Input
                                 id="periode"
                                 name="periode"
@@ -106,12 +115,12 @@ export default function PenggajianIndex({
                             <InputError message={errors.periode} />
                         </div>
                         <div className="grid gap-1.5">
-                            <label
+                            <Label
                                 className="text-sm font-medium"
                                 htmlFor="gaji_pokok"
                             >
                                 Gaji Pokok
-                            </label>
+                            </Label>
                             <Input
                                 id="gaji_pokok"
                                 name="gaji_pokok"
@@ -123,12 +132,12 @@ export default function PenggajianIndex({
                             <InputError message={errors.gaji_pokok} />
                         </div>
                         <div className="grid gap-1.5">
-                            <label
+                            <Label
                                 className="text-sm font-medium"
                                 htmlFor="tunjangan"
                             >
                                 Tunjangan
-                            </label>
+                            </Label>
                             <Input
                                 id="tunjangan"
                                 name="tunjangan"
@@ -140,12 +149,12 @@ export default function PenggajianIndex({
                             />
                         </div>
                         <div className="grid gap-1.5">
-                            <label
+                            <Label
                                 className="text-sm font-medium"
                                 htmlFor="potongan"
                             >
                                 Potongan
-                            </label>
+                            </Label>
                             <Input
                                 id="potongan"
                                 name="potongan"
@@ -166,29 +175,41 @@ export default function PenggajianIndex({
             </Form>
 
             <div className="overflow-x-auto rounded-xl border">
-                <table className="w-full text-sm">
-                    <thead className="bg-muted/50 text-left">
-                        <tr>
-                            <th className="p-3 font-medium">Unit</th>
-                            <th className="p-3 font-medium">Pegawai</th>
-                            <th className="p-3 font-medium">Periode</th>
-                            <th className="p-3 font-medium">Total Gaji</th>
-                            <th className="p-3 font-medium">Status</th>
-                            <th className="p-3 font-medium">Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody>
+                <Table className="w-full text-sm">
+                    <TableHeader className="bg-muted/50 text-left">
+                        <TableRow>
+                            <TableHead className="p-3 font-medium">
+                                Unit
+                            </TableHead>
+                            <TableHead className="p-3 font-medium">
+                                Pegawai
+                            </TableHead>
+                            <TableHead className="p-3 font-medium">
+                                Periode
+                            </TableHead>
+                            <TableHead className="p-3 font-medium">
+                                Total Gaji
+                            </TableHead>
+                            <TableHead className="p-3 font-medium">
+                                Status
+                            </TableHead>
+                            <TableHead className="p-3 font-medium">
+                                Aksi
+                            </TableHead>
+                        </TableRow>
+                    </TableHeader>
+                    <TableBody>
                         {penggajians.map((p) => {
                             const accountsForUnit = kasBankAccounts.filter(
                                 (a) => a.unit_id === p.unit_id,
                             );
                             if (editingId === p.id) {
                                 return (
-                                    <tr
+                                    <TableRow
                                         key={p.id}
                                         className="border-t bg-muted/30"
                                     >
-                                        <td colSpan={6} className="p-3">
+                                        <TableCell colSpan={6} className="p-3">
                                             <Form
                                                 {...PenggajianController.update.form(
                                                     p.id,
@@ -277,29 +298,36 @@ export default function PenggajianIndex({
                                                     </>
                                                 )}
                                             </Form>
-                                        </td>
-                                    </tr>
+                                        </TableCell>
+                                    </TableRow>
                                 );
                             }
                             return (
-                                <tr key={p.id} className="border-t align-top">
-                                    <td className="p-3">{p.unit.nama}</td>
-                                    <td className="p-3">
+                                <TableRow
+                                    key={p.id}
+                                    className="border-t align-top"
+                                >
+                                    <TableCell className="p-3">
+                                        {p.unit.nama}
+                                    </TableCell>
+                                    <TableCell className="p-3">
                                         {p.nama_pegawai}
                                         {p.kode_pegawai && (
                                             <div className="text-xs text-muted-foreground">
                                                 {p.kode_pegawai}
                                             </div>
                                         )}
-                                    </td>
-                                    <td className="p-3">{p.periode}</td>
-                                    <td className="p-3">
+                                    </TableCell>
+                                    <TableCell className="p-3">
+                                        {p.periode}
+                                    </TableCell>
+                                    <TableCell className="p-3">
                                         {formatRupiah(p.total_gaji)}
-                                    </td>
-                                    <td className="p-3 capitalize">
+                                    </TableCell>
+                                    <TableCell className="p-3 capitalize">
                                         {p.status}
-                                    </td>
-                                    <td className="p-3">
+                                    </TableCell>
+                                    <TableCell className="p-3">
                                         <div className="flex flex-col gap-2">
                                             {p.status === 'draft' && (
                                                 <Form
@@ -399,22 +427,22 @@ export default function PenggajianIndex({
                                                 )}
                                             </Form>
                                         </div>
-                                    </td>
-                                </tr>
+                                    </TableCell>
+                                </TableRow>
                             );
                         })}
                         {penggajians.length === 0 && (
-                            <tr>
-                                <td
+                            <TableRow>
+                                <TableCell
                                     className="p-3 text-muted-foreground"
                                     colSpan={6}
                                 >
                                     Belum ada data penggajian.
-                                </td>
-                            </tr>
+                                </TableCell>
+                            </TableRow>
                         )}
-                    </tbody>
-                </table>
+                    </TableBody>
+                </Table>
             </div>
         </div>
     );

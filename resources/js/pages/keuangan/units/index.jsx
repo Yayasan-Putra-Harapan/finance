@@ -1,4 +1,13 @@
 import { Form, Head, Link, usePage } from '@inertiajs/react';
+import {
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
+} from '@/components/ui/table';
+import { Label } from '@/components/ui/label';
 import { useState } from 'react';
 import UnitController from '@/actions/App/Http/Controllers/Keuangan/UnitController';
 import Heading from '@/components/heading';
@@ -30,12 +39,12 @@ export default function UnitsIndex({ units }) {
                     {({ processing, errors }) => (
                         <>
                             <div className="grid gap-1.5">
-                                <label
+                                <Label
                                     className="text-sm font-medium"
                                     htmlFor="kode_unit"
                                 >
                                     Kode Unit
-                                </label>
+                                </Label>
                                 <Input
                                     id="kode_unit"
                                     name="kode_unit"
@@ -45,12 +54,12 @@ export default function UnitsIndex({ units }) {
                                 <InputError message={errors.kode_unit} />
                             </div>
                             <div className="grid gap-1.5">
-                                <label
+                                <Label
                                     className="text-sm font-medium"
                                     htmlFor="nama"
                                 >
                                     Nama Unit
-                                </label>
+                                </Label>
                                 <Input
                                     id="nama"
                                     name="nama"
@@ -60,12 +69,12 @@ export default function UnitsIndex({ units }) {
                                 <InputError message={errors.nama} />
                             </div>
                             <div className="grid gap-1.5">
-                                <label
+                                <Label
                                     className="text-sm font-medium"
                                     htmlFor="jenjang"
                                 >
                                     Jenjang
-                                </label>
+                                </Label>
                                 <Input
                                     id="jenjang"
                                     name="jenjang"
@@ -75,12 +84,12 @@ export default function UnitsIndex({ units }) {
                                 <InputError message={errors.jenjang} />
                             </div>
                             <div className="grid gap-1.5">
-                                <label
+                                <Label
                                     className="text-sm font-medium"
                                     htmlFor="jumlah_siswa"
                                 >
                                     Jumlah Siswa
-                                </label>
+                                </Label>
                                 <Input
                                     id="jumlah_siswa"
                                     name="jumlah_siswa"
@@ -105,24 +114,34 @@ export default function UnitsIndex({ units }) {
             )}
 
             <div className="overflow-x-auto rounded-xl border">
-                <table className="w-full text-sm">
-                    <thead className="bg-muted/50 text-left">
-                        <tr>
-                            <th className="p-3 font-medium">Kode</th>
-                            <th className="p-3 font-medium">Nama</th>
-                            <th className="p-3 font-medium">Jenjang</th>
-                            <th className="p-3 font-medium">Jumlah Siswa</th>
-                            <th className="p-3 font-medium">Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody>
+                <Table className="w-full text-sm">
+                    <TableHeader className="bg-muted/50 text-left">
+                        <TableRow>
+                            <TableHead className="p-3 font-medium">
+                                Kode
+                            </TableHead>
+                            <TableHead className="p-3 font-medium">
+                                Nama
+                            </TableHead>
+                            <TableHead className="p-3 font-medium">
+                                Jenjang
+                            </TableHead>
+                            <TableHead className="p-3 font-medium">
+                                Jumlah Siswa
+                            </TableHead>
+                            <TableHead className="p-3 font-medium">
+                                Aksi
+                            </TableHead>
+                        </TableRow>
+                    </TableHeader>
+                    <TableBody>
                         {units.map((unit) =>
                             editingId === unit.id ? (
-                                <tr
+                                <TableRow
                                     key={unit.id}
                                     className="border-t bg-muted/30"
                                 >
-                                    <td colSpan={5} className="p-3">
+                                    <TableCell colSpan={5} className="p-3">
                                         <Form
                                             {...UnitController.update.form(
                                                 unit.id,
@@ -193,15 +212,23 @@ export default function UnitsIndex({ units }) {
                                                 </>
                                             )}
                                         </Form>
-                                    </td>
-                                </tr>
+                                    </TableCell>
+                                </TableRow>
                             ) : (
-                                <tr key={unit.id} className="border-t">
-                                    <td className="p-3">{unit.kode_unit}</td>
-                                    <td className="p-3">{unit.nama}</td>
-                                    <td className="p-3">{unit.jenjang}</td>
-                                    <td className="p-3">{unit.jumlah_siswa}</td>
-                                    <td className="p-3">
+                                <TableRow key={unit.id} className="border-t">
+                                    <TableCell className="p-3">
+                                        {unit.kode_unit}
+                                    </TableCell>
+                                    <TableCell className="p-3">
+                                        {unit.nama}
+                                    </TableCell>
+                                    <TableCell className="p-3">
+                                        {unit.jenjang}
+                                    </TableCell>
+                                    <TableCell className="p-3">
+                                        {unit.jumlah_siswa}
+                                    </TableCell>
+                                    <TableCell className="p-3">
                                         <div className="flex flex-wrap items-center gap-2">
                                             <Link
                                                 href={perUnit(unit.id)}
@@ -216,15 +243,16 @@ export default function UnitsIndex({ units }) {
                                                 Proyeksi SES
                                             </Link>
                                             {isAdmin && (
-                                                <button
+                                                <Button
                                                     type="button"
+                                                    variant="link"
+                                                    className="h-auto p-0"
                                                     onClick={() =>
                                                         setEditingId(unit.id)
                                                     }
-                                                    className="text-sm text-primary underline-offset-4 hover:underline"
                                                 >
                                                     Edit
-                                                </button>
+                                                </Button>
                                             )}
                                         </div>
                                         {isAdmin && (
@@ -254,22 +282,22 @@ export default function UnitsIndex({ units }) {
                                                 )}
                                             </Form>
                                         )}
-                                    </td>
-                                </tr>
+                                    </TableCell>
+                                </TableRow>
                             ),
                         )}
                         {units.length === 0 && (
-                            <tr>
-                                <td
+                            <TableRow>
+                                <TableCell
                                     className="p-3 text-muted-foreground"
                                     colSpan={5}
                                 >
                                     Belum ada unit.
-                                </td>
-                            </tr>
+                                </TableCell>
+                            </TableRow>
                         )}
-                    </tbody>
-                </table>
+                    </TableBody>
+                </Table>
             </div>
         </div>
     );

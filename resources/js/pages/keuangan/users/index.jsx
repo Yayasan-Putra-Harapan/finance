@@ -1,4 +1,13 @@
 import { Form, Head } from '@inertiajs/react';
+import {
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
+} from '@/components/ui/table';
+import { Label } from '@/components/ui/label';
 import { useState } from 'react';
 import UserController from '@/actions/App/Http/Controllers/Keuangan/UserController';
 import Heading from '@/components/heading';
@@ -33,22 +42,22 @@ export default function UsersIndex({ users, units, roles }) {
                 {({ processing, errors }) => (
                     <>
                         <div className="grid gap-1.5">
-                            <label
+                            <Label
                                 className="text-sm font-medium"
                                 htmlFor="name"
                             >
                                 Nama
-                            </label>
+                            </Label>
                             <Input id="name" name="name" required />
                             <InputError message={errors.name} />
                         </div>
                         <div className="grid gap-1.5">
-                            <label
+                            <Label
                                 className="text-sm font-medium"
                                 htmlFor="email"
                             >
                                 Email
-                            </label>
+                            </Label>
                             <Input
                                 id="email"
                                 name="email"
@@ -58,12 +67,12 @@ export default function UsersIndex({ users, units, roles }) {
                             <InputError message={errors.email} />
                         </div>
                         <div className="grid gap-1.5">
-                            <label
+                            <Label
                                 className="text-sm font-medium"
                                 htmlFor="password"
                             >
                                 Password
-                            </label>
+                            </Label>
                             <Input
                                 id="password"
                                 name="password"
@@ -74,12 +83,12 @@ export default function UsersIndex({ users, units, roles }) {
                             <InputError message={errors.password} />
                         </div>
                         <div className="grid gap-1.5">
-                            <label
+                            <Label
                                 className="text-sm font-medium"
                                 htmlFor="role"
                             >
                                 Peran
-                            </label>
+                            </Label>
                             <NativeSelect
                                 id="role"
                                 name="role"
@@ -95,12 +104,12 @@ export default function UsersIndex({ users, units, roles }) {
                             <InputError message={errors.role} />
                         </div>
                         <div className="grid gap-1.5">
-                            <label
+                            <Label
                                 className="text-sm font-medium"
                                 htmlFor="unit_id"
                             >
                                 Unit (untuk Bendahara Unit)
-                            </label>
+                            </Label>
                             <NativeSelect
                                 id="unit_id"
                                 name="unit_id"
@@ -125,24 +134,34 @@ export default function UsersIndex({ users, units, roles }) {
             </Form>
 
             <div className="overflow-x-auto rounded-xl border">
-                <table className="w-full text-sm">
-                    <thead className="bg-muted/50 text-left">
-                        <tr>
-                            <th className="p-3 font-medium">Nama</th>
-                            <th className="p-3 font-medium">Email</th>
-                            <th className="p-3 font-medium">Peran</th>
-                            <th className="p-3 font-medium">Unit</th>
-                            <th className="p-3 font-medium">Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody>
+                <Table className="w-full text-sm">
+                    <TableHeader className="bg-muted/50 text-left">
+                        <TableRow>
+                            <TableHead className="p-3 font-medium">
+                                Nama
+                            </TableHead>
+                            <TableHead className="p-3 font-medium">
+                                Email
+                            </TableHead>
+                            <TableHead className="p-3 font-medium">
+                                Peran
+                            </TableHead>
+                            <TableHead className="p-3 font-medium">
+                                Unit
+                            </TableHead>
+                            <TableHead className="p-3 font-medium">
+                                Aksi
+                            </TableHead>
+                        </TableRow>
+                    </TableHeader>
+                    <TableBody>
                         {users.map((user) =>
                             editingId === user.id ? (
-                                <tr
+                                <TableRow
                                     key={user.id}
                                     className="border-t bg-muted/30"
                                 >
-                                    <td colSpan={5} className="p-3">
+                                    <TableCell colSpan={5} className="p-3">
                                         <Form
                                             {...UserController.update.form(
                                                 user.id,
@@ -232,19 +251,23 @@ export default function UsersIndex({ users, units, roles }) {
                                                 </>
                                             )}
                                         </Form>
-                                    </td>
-                                </tr>
+                                    </TableCell>
+                                </TableRow>
                             ) : (
-                                <tr key={user.id} className="border-t">
-                                    <td className="p-3">{user.name}</td>
-                                    <td className="p-3">{user.email}</td>
-                                    <td className="p-3">
+                                <TableRow key={user.id} className="border-t">
+                                    <TableCell className="p-3">
+                                        {user.name}
+                                    </TableCell>
+                                    <TableCell className="p-3">
+                                        {user.email}
+                                    </TableCell>
+                                    <TableCell className="p-3">
                                         {ROLE_LABEL[user.role] ?? user.role}
-                                    </td>
-                                    <td className="p-3">
+                                    </TableCell>
+                                    <TableCell className="p-3">
                                         {user.unit?.nama ?? '-'}
-                                    </td>
-                                    <td className="p-3">
+                                    </TableCell>
+                                    <TableCell className="p-3">
                                         <div className="flex items-center gap-2">
                                             <Button
                                                 size="sm"
@@ -280,22 +303,22 @@ export default function UsersIndex({ users, units, roles }) {
                                                 )}
                                             </Form>
                                         </div>
-                                    </td>
-                                </tr>
+                                    </TableCell>
+                                </TableRow>
                             ),
                         )}
                         {users.length === 0 && (
-                            <tr>
-                                <td
+                            <TableRow>
+                                <TableCell
                                     className="p-3 text-muted-foreground"
                                     colSpan={5}
                                 >
                                     Belum ada pengguna.
-                                </td>
-                            </tr>
+                                </TableCell>
+                            </TableRow>
                         )}
-                    </tbody>
-                </table>
+                    </TableBody>
+                </Table>
             </div>
         </div>
     );

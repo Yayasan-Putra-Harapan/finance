@@ -1,5 +1,13 @@
 import { Head } from '@inertiajs/react';
 import {
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
+} from '@/components/ui/table';
+import {
     Bar,
     BarChart,
     CartesianGrid,
@@ -179,54 +187,70 @@ export default function DashboardEws({
             )}
 
             <div className="overflow-x-auto rounded-xl border">
-                <table className="w-full text-sm">
-                    <thead className="bg-muted/50 text-left">
-                        <tr>
-                            <th className="p-3 font-medium">Unit</th>
-                            <th className="p-3 font-medium">Kategori</th>
-                            <th className="p-3 font-medium">Pagu</th>
-                            <th className="p-3 font-medium">Realisasi</th>
-                            <th className="p-3 font-medium">Rasio Serapan</th>
-                            <th className="p-3 font-medium">
+                <Table className="w-full text-sm">
+                    <TableHeader className="bg-muted/50 text-left">
+                        <TableRow>
+                            <TableHead className="p-3 font-medium">
+                                Unit
+                            </TableHead>
+                            <TableHead className="p-3 font-medium">
+                                Kategori
+                            </TableHead>
+                            <TableHead className="p-3 font-medium">
+                                Pagu
+                            </TableHead>
+                            <TableHead className="p-3 font-medium">
+                                Realisasi
+                            </TableHead>
+                            <TableHead className="p-3 font-medium">
+                                Rasio Serapan
+                            </TableHead>
+                            <TableHead className="p-3 font-medium">
                                 Rasio Proyeksi SES
-                            </th>
-                            <th className="p-3 font-medium">Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
+                            </TableHead>
+                            <TableHead className="p-3 font-medium">
+                                Status
+                            </TableHead>
+                        </TableRow>
+                    </TableHeader>
+                    <TableBody>
                         {anggarans.map((a) => (
-                            <tr key={a.id} className="border-t">
-                                <td className="p-3">{a.unit}</td>
-                                <td className="p-3">{a.kategori}</td>
-                                <td className="p-3">{formatRupiah(a.pagu)}</td>
-                                <td className="p-3">
+                            <TableRow key={a.id} className="border-t">
+                                <TableCell className="p-3">{a.unit}</TableCell>
+                                <TableCell className="p-3">
+                                    {a.kategori}
+                                </TableCell>
+                                <TableCell className="p-3">
+                                    {formatRupiah(a.pagu)}
+                                </TableCell>
+                                <TableCell className="p-3">
                                     {formatRupiah(a.realisasi)}
-                                </td>
-                                <td className="p-3">
+                                </TableCell>
+                                <TableCell className="p-3">
                                     {a.rasio_serapan.toFixed(2)}
-                                </td>
-                                <td className="p-3">
+                                </TableCell>
+                                <TableCell className="p-3">
                                     {a.rasio_proyeksi === null
                                         ? '-'
                                         : `${(a.rasio_proyeksi * 100).toFixed(1)}%`}
-                                </td>
-                                <td className="p-3">
+                                </TableCell>
+                                <TableCell className="p-3">
                                     <EwsBadge status={a.status_ews} />
-                                </td>
-                            </tr>
+                                </TableCell>
+                            </TableRow>
                         ))}
                         {anggarans.length === 0 && (
-                            <tr>
-                                <td
+                            <TableRow>
+                                <TableCell
                                     className="p-3 text-muted-foreground"
                                     colSpan={7}
                                 >
                                     Belum ada RAB pengeluaran yang disetujui.
-                                </td>
-                            </tr>
+                                </TableCell>
+                            </TableRow>
                         )}
-                    </tbody>
-                </table>
+                    </TableBody>
+                </Table>
             </div>
         </div>
     );

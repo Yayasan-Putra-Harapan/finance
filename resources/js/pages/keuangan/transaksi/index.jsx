@@ -1,4 +1,13 @@
 import { Form, Head, Link } from '@inertiajs/react';
+import {
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
+} from '@/components/ui/table';
+import { Label } from '@/components/ui/label';
 import TransaksiController from '@/actions/App/Http/Controllers/Keuangan/TransaksiController';
 import { UnitFilter } from '@/components/unit-filter';
 import Heading from '@/components/heading';
@@ -52,9 +61,9 @@ export default function TransaksiIndex({
                     <input type="hidden" name="unit_id" value={filterUnitId} />
                 )}
                 <div className="grid gap-1">
-                    <label className="text-sm font-medium" htmlFor="f_jenis">
+                    <Label className="text-sm font-medium" htmlFor="f_jenis">
                         Jenis
-                    </label>
+                    </Label>
                     <NativeSelect
                         id="f_jenis"
                         name="jenis"
@@ -66,9 +75,9 @@ export default function TransaksiIndex({
                     </NativeSelect>
                 </div>
                 <div className="grid gap-1">
-                    <label className="text-sm font-medium" htmlFor="f_kategori">
+                    <Label className="text-sm font-medium" htmlFor="f_kategori">
                         Kategori
-                    </label>
+                    </Label>
                     <NativeSelect
                         id="f_kategori"
                         name="kategori"
@@ -83,9 +92,9 @@ export default function TransaksiIndex({
                     </NativeSelect>
                 </div>
                 <div className="grid gap-1">
-                    <label className="text-sm font-medium" htmlFor="f_dari">
+                    <Label className="text-sm font-medium" htmlFor="f_dari">
                         Dari
-                    </label>
+                    </Label>
                     <Input
                         id="f_dari"
                         name="dari"
@@ -94,9 +103,9 @@ export default function TransaksiIndex({
                     />
                 </div>
                 <div className="grid gap-1">
-                    <label className="text-sm font-medium" htmlFor="f_sampai">
+                    <Label className="text-sm font-medium" htmlFor="f_sampai">
                         Sampai
-                    </label>
+                    </Label>
                     <Input
                         id="f_sampai"
                         name="sampai"
@@ -120,12 +129,12 @@ export default function TransaksiIndex({
                 {({ processing, errors }) => (
                     <>
                         <div className="grid gap-1.5">
-                            <label
+                            <Label
                                 className="text-sm font-medium"
                                 htmlFor="unit_id"
                             >
                                 Unit
-                            </label>
+                            </Label>
                             <NativeSelect
                                 id="unit_id"
                                 name="unit_id"
@@ -144,12 +153,12 @@ export default function TransaksiIndex({
                             <InputError message={errors.unit_id} />
                         </div>
                         <div className="grid gap-1.5">
-                            <label
+                            <Label
                                 className="text-sm font-medium"
                                 htmlFor="jenis"
                             >
                                 Jenis
-                            </label>
+                            </Label>
                             <NativeSelect
                                 id="jenis"
                                 name="jenis"
@@ -161,12 +170,12 @@ export default function TransaksiIndex({
                             </NativeSelect>
                         </div>
                         <div className="grid gap-1.5">
-                            <label
+                            <Label
                                 className="text-sm font-medium"
                                 htmlFor="kategori"
                             >
                                 Kategori
-                            </label>
+                            </Label>
                             <Input
                                 id="kategori"
                                 name="kategori"
@@ -182,12 +191,12 @@ export default function TransaksiIndex({
                             <InputError message={errors.kategori} />
                         </div>
                         <div className="grid gap-1.5">
-                            <label
+                            <Label
                                 className="text-sm font-medium"
                                 htmlFor="nominal"
                             >
                                 Nominal
-                            </label>
+                            </Label>
                             <Input
                                 id="nominal"
                                 name="nominal"
@@ -199,12 +208,12 @@ export default function TransaksiIndex({
                             <InputError message={errors.nominal} />
                         </div>
                         <div className="grid gap-1.5">
-                            <label
+                            <Label
                                 className="text-sm font-medium"
                                 htmlFor="tanggal"
                             >
                                 Tanggal
-                            </label>
+                            </Label>
                             <Input
                                 id="tanggal"
                                 name="tanggal"
@@ -217,12 +226,12 @@ export default function TransaksiIndex({
                             <InputError message={errors.tanggal} />
                         </div>
                         <div className="grid gap-1.5">
-                            <label
+                            <Label
                                 className="text-sm font-medium"
                                 htmlFor="kas_bank_account_id"
                             >
                                 Akun Kas/Bank
-                            </label>
+                            </Label>
                             <NativeSelect
                                 id="kas_bank_account_id"
                                 name="kas_bank_account_id"
@@ -237,12 +246,12 @@ export default function TransaksiIndex({
                             </NativeSelect>
                         </div>
                         <div className="grid gap-1.5">
-                            <label
+                            <Label
                                 className="text-sm font-medium"
                                 htmlFor="anggaran_id"
                             >
                                 RAB Terkait
-                            </label>
+                            </Label>
                             <NativeSelect
                                 id="anggaran_id"
                                 name="anggaran_id"
@@ -257,12 +266,12 @@ export default function TransaksiIndex({
                             </NativeSelect>
                         </div>
                         <div className="grid gap-1.5">
-                            <label
+                            <Label
                                 className="text-sm font-medium"
                                 htmlFor="vendor_id"
                             >
                                 Vendor
-                            </label>
+                            </Label>
                             <NativeSelect
                                 id="vendor_id"
                                 name="vendor_id"
@@ -277,12 +286,12 @@ export default function TransaksiIndex({
                             </NativeSelect>
                         </div>
                         <div className="grid gap-1.5">
-                            <label
+                            <Label
                                 className="text-sm font-medium"
                                 htmlFor="metode_pembayaran_id"
                             >
                                 Metode Pembayaran
-                            </label>
+                            </Label>
                             <NativeSelect
                                 id="metode_pembayaran_id"
                                 name="metode_pembayaran_id"
@@ -297,12 +306,12 @@ export default function TransaksiIndex({
                             </NativeSelect>
                         </div>
                         <div className="grid gap-1.5 md:col-span-2">
-                            <label
+                            <Label
                                 className="text-sm font-medium"
                                 htmlFor="keterangan"
                             >
                                 Keterangan
-                            </label>
+                            </Label>
                             <Input
                                 id="keterangan"
                                 name="keterangan"
@@ -319,40 +328,62 @@ export default function TransaksiIndex({
             </Form>
 
             <div className="overflow-x-auto rounded-xl border">
-                <table className="w-full text-sm">
-                    <thead className="bg-muted/50 text-left">
-                        <tr>
-                            <th className="p-3 font-medium">Tanggal</th>
-                            <th className="p-3 font-medium">Unit</th>
-                            <th className="p-3 font-medium">Jenis</th>
-                            <th className="p-3 font-medium">Kategori</th>
-                            <th className="p-3 font-medium">Nominal</th>
-                            <th className="p-3 font-medium">Akun</th>
-                            <th className="p-3 font-medium">Keterangan</th>
-                            <th className="p-3 font-medium">Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody>
+                <Table className="w-full text-sm">
+                    <TableHeader className="bg-muted/50 text-left">
+                        <TableRow>
+                            <TableHead className="p-3 font-medium">
+                                Tanggal
+                            </TableHead>
+                            <TableHead className="p-3 font-medium">
+                                Unit
+                            </TableHead>
+                            <TableHead className="p-3 font-medium">
+                                Jenis
+                            </TableHead>
+                            <TableHead className="p-3 font-medium">
+                                Kategori
+                            </TableHead>
+                            <TableHead className="p-3 font-medium">
+                                Nominal
+                            </TableHead>
+                            <TableHead className="p-3 font-medium">
+                                Akun
+                            </TableHead>
+                            <TableHead className="p-3 font-medium">
+                                Keterangan
+                            </TableHead>
+                            <TableHead className="p-3 font-medium">
+                                Aksi
+                            </TableHead>
+                        </TableRow>
+                    </TableHeader>
+                    <TableBody>
                         {transaksis.data.map((t) => (
-                            <tr key={t.id} className="border-t">
-                                <td className="p-3 text-xs">{t.tanggal}</td>
-                                <td className="p-3">{t.unit.nama}</td>
-                                <td
+                            <TableRow key={t.id} className="border-t">
+                                <TableCell className="p-3 text-xs">
+                                    {t.tanggal}
+                                </TableCell>
+                                <TableCell className="p-3">
+                                    {t.unit.nama}
+                                </TableCell>
+                                <TableCell
                                     className={`p-3 font-medium ${t.jenis === 'masuk' ? 'text-green-600' : 'text-red-600'}`}
                                 >
                                     {t.jenis === 'masuk' ? 'Masuk' : 'Keluar'}
-                                </td>
-                                <td className="p-3">{t.kategori}</td>
-                                <td className="p-3">
+                                </TableCell>
+                                <TableCell className="p-3">
+                                    {t.kategori}
+                                </TableCell>
+                                <TableCell className="p-3">
                                     {formatRupiah(t.nominal)}
-                                </td>
-                                <td className="p-3">
+                                </TableCell>
+                                <TableCell className="p-3">
                                     {t.kas_bank_account?.nama ?? '-'}
-                                </td>
-                                <td className="p-3 text-xs text-muted-foreground">
+                                </TableCell>
+                                <TableCell className="p-3 text-xs text-muted-foreground">
                                     {t.keterangan ?? '-'}
-                                </td>
-                                <td className="flex gap-2 p-3">
+                                </TableCell>
+                                <TableCell className="flex gap-2 p-3">
                                     {t.dapat_diubah && (
                                         <Button
                                             variant="outline"
@@ -390,21 +421,21 @@ export default function TransaksiIndex({
                                             </Button>
                                         )}
                                     </Form>
-                                </td>
-                            </tr>
+                                </TableCell>
+                            </TableRow>
                         ))}
                         {transaksis.data.length === 0 && (
-                            <tr>
-                                <td
+                            <TableRow>
+                                <TableCell
                                     className="p-3 text-muted-foreground"
                                     colSpan={8}
                                 >
                                     Belum ada transaksi.
-                                </td>
-                            </tr>
+                                </TableCell>
+                            </TableRow>
                         )}
-                    </tbody>
-                </table>
+                    </TableBody>
+                </Table>
             </div>
             <Pagination links={transaksis.links} />
         </div>

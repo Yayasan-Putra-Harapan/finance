@@ -1,4 +1,13 @@
 import { Form, Head } from '@inertiajs/react';
+import {
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
+} from '@/components/ui/table';
+import { Label } from '@/components/ui/label';
 import { useState } from 'react';
 import VendorController from '@/actions/App/Http/Controllers/Keuangan/VendorController';
 import Heading from '@/components/heading';
@@ -26,12 +35,12 @@ export default function VendorsIndex({ vendors }) {
                 {({ processing, errors }) => (
                     <>
                         <div className="grid gap-1.5">
-                            <label
+                            <Label
                                 className="text-sm font-medium"
                                 htmlFor="nama"
                             >
                                 Nama Vendor
-                            </label>
+                            </Label>
                             <Input
                                 id="nama"
                                 name="nama"
@@ -41,12 +50,12 @@ export default function VendorsIndex({ vendors }) {
                             <InputError message={errors.nama} />
                         </div>
                         <div className="grid gap-1.5">
-                            <label
+                            <Label
                                 className="text-sm font-medium"
                                 htmlFor="kontak"
                             >
                                 Kontak
-                            </label>
+                            </Label>
                             <Input
                                 id="kontak"
                                 name="kontak"
@@ -64,23 +73,31 @@ export default function VendorsIndex({ vendors }) {
             </Form>
 
             <div className="overflow-x-auto rounded-xl border">
-                <table className="w-full text-sm">
-                    <thead className="bg-muted/50 text-left">
-                        <tr>
-                            <th className="p-3 font-medium">Nama</th>
-                            <th className="p-3 font-medium">Kontak</th>
-                            <th className="p-3 font-medium">Status Hutang</th>
-                            <th className="p-3 font-medium">Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody>
+                <Table className="w-full text-sm">
+                    <TableHeader className="bg-muted/50 text-left">
+                        <TableRow>
+                            <TableHead className="p-3 font-medium">
+                                Nama
+                            </TableHead>
+                            <TableHead className="p-3 font-medium">
+                                Kontak
+                            </TableHead>
+                            <TableHead className="p-3 font-medium">
+                                Status Hutang
+                            </TableHead>
+                            <TableHead className="p-3 font-medium">
+                                Aksi
+                            </TableHead>
+                        </TableRow>
+                    </TableHeader>
+                    <TableBody>
                         {vendors.map((vendor) =>
                             editingId === vendor.id ? (
-                                <tr
+                                <TableRow
                                     key={vendor.id}
                                     className="border-t bg-muted/30"
                                 >
-                                    <td colSpan={4} className="p-3">
+                                    <TableCell colSpan={4} className="p-3">
                                         <Form
                                             {...VendorController.update.form(
                                                 vendor.id,
@@ -128,20 +145,22 @@ export default function VendorsIndex({ vendors }) {
                                                 </>
                                             )}
                                         </Form>
-                                    </td>
-                                </tr>
+                                    </TableCell>
+                                </TableRow>
                             ) : (
-                                <tr key={vendor.id} className="border-t">
-                                    <td className="p-3">{vendor.nama}</td>
-                                    <td className="p-3">
+                                <TableRow key={vendor.id} className="border-t">
+                                    <TableCell className="p-3">
+                                        {vendor.nama}
+                                    </TableCell>
+                                    <TableCell className="p-3">
                                         {vendor.kontak ?? '-'}
-                                    </td>
-                                    <td className="p-3">
+                                    </TableCell>
+                                    <TableCell className="p-3">
                                         {vendor.status_hutang === 'lunas'
                                             ? 'Lunas'
                                             : 'Belum Lunas'}
-                                    </td>
-                                    <td className="p-3">
+                                    </TableCell>
+                                    <TableCell className="p-3">
                                         <div className="flex items-center gap-2">
                                             <Button
                                                 size="sm"
@@ -177,22 +196,22 @@ export default function VendorsIndex({ vendors }) {
                                                 )}
                                             </Form>
                                         </div>
-                                    </td>
-                                </tr>
+                                    </TableCell>
+                                </TableRow>
                             ),
                         )}
                         {vendors.length === 0 && (
-                            <tr>
-                                <td
+                            <TableRow>
+                                <TableCell
                                     className="p-3 text-muted-foreground"
                                     colSpan={4}
                                 >
                                     Belum ada vendor.
-                                </td>
-                            </tr>
+                                </TableCell>
+                            </TableRow>
                         )}
-                    </tbody>
-                </table>
+                    </TableBody>
+                </Table>
             </div>
         </div>
     );

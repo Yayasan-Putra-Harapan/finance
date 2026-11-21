@@ -1,4 +1,12 @@
 import { Head } from '@inertiajs/react';
+import {
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
+} from '@/components/ui/table';
 import Heading from '@/components/heading';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { formatRupiah } from '@/lib/utils';
@@ -54,48 +62,58 @@ export default function LaporanKonsolidasi({
             </div>
 
             <div className="overflow-x-auto rounded-xl border">
-                <table className="w-full text-sm">
-                    <thead className="bg-muted/50 text-left">
-                        <tr>
-                            <th className="p-3 font-medium">Unit</th>
-                            <th className="p-3 font-medium">Pemasukan</th>
-                            <th className="p-3 font-medium">Pengeluaran</th>
-                            <th className="p-3 font-medium">Saldo Bersih</th>
-                            <th className="p-3 font-medium">
+                <Table className="w-full text-sm">
+                    <TableHeader className="bg-muted/50 text-left">
+                        <TableRow>
+                            <TableHead className="p-3 font-medium">
+                                Unit
+                            </TableHead>
+                            <TableHead className="p-3 font-medium">
+                                Pemasukan
+                            </TableHead>
+                            <TableHead className="p-3 font-medium">
+                                Pengeluaran
+                            </TableHead>
+                            <TableHead className="p-3 font-medium">
+                                Saldo Bersih
+                            </TableHead>
+                            <TableHead className="p-3 font-medium">
                                 Saldo Kas & Bank
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
+                            </TableHead>
+                        </TableRow>
+                    </TableHeader>
+                    <TableBody>
                         {perUnit.map((row) => (
-                            <tr key={row.unit_id} className="border-t">
-                                <td className="p-3">{row.unit}</td>
-                                <td className="p-3 text-green-600">
+                            <TableRow key={row.unit_id} className="border-t">
+                                <TableCell className="p-3">
+                                    {row.unit}
+                                </TableCell>
+                                <TableCell className="p-3 text-green-600">
                                     {formatRupiah(row.pemasukan)}
-                                </td>
-                                <td className="p-3 text-red-600">
+                                </TableCell>
+                                <TableCell className="p-3 text-red-600">
                                     {formatRupiah(row.pengeluaran)}
-                                </td>
-                                <td className="p-3">
+                                </TableCell>
+                                <TableCell className="p-3">
                                     {formatRupiah(row.saldo_bersih)}
-                                </td>
-                                <td className="p-3">
+                                </TableCell>
+                                <TableCell className="p-3">
                                     {formatRupiah(row.saldo_kas_bank)}
-                                </td>
-                            </tr>
+                                </TableCell>
+                            </TableRow>
                         ))}
                         {perUnit.length === 0 && (
-                            <tr>
-                                <td
+                            <TableRow>
+                                <TableCell
                                     className="p-3 text-muted-foreground"
                                     colSpan={5}
                                 >
                                     Belum ada data unit.
-                                </td>
-                            </tr>
+                                </TableCell>
+                            </TableRow>
                         )}
-                    </tbody>
-                </table>
+                    </TableBody>
+                </Table>
             </div>
         </div>
     );

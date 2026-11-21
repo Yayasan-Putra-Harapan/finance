@@ -1,4 +1,14 @@
 import { Form, Head } from '@inertiajs/react';
+import { Checkbox } from '@/components/ui/checkbox';
+import {
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
+} from '@/components/ui/table';
+import { Label } from '@/components/ui/label';
 import { useState } from 'react';
 import MetodePembayaranController from '@/actions/App/Http/Controllers/Keuangan/MetodePembayaranController';
 import Heading from '@/components/heading';
@@ -27,12 +37,12 @@ export default function MetodePembayaranIndex({ metodePembayarans }) {
                 {({ processing, errors }) => (
                     <>
                         <div className="grid gap-1.5">
-                            <label
+                            <Label
                                 className="text-sm font-medium"
                                 htmlFor="nama"
                             >
                                 Nama Metode
-                            </label>
+                            </Label>
                             <Input
                                 id="nama"
                                 name="nama"
@@ -42,12 +52,12 @@ export default function MetodePembayaranIndex({ metodePembayarans }) {
                             <InputError message={errors.nama} />
                         </div>
                         <div className="grid gap-1.5">
-                            <label
+                            <Label
                                 className="text-sm font-medium"
                                 htmlFor="tipe"
                             >
                                 Tipe
-                            </label>
+                            </Label>
                             <NativeSelect
                                 id="tipe"
                                 name="tipe"
@@ -71,23 +81,31 @@ export default function MetodePembayaranIndex({ metodePembayarans }) {
             </Form>
 
             <div className="overflow-x-auto rounded-xl border">
-                <table className="w-full text-sm">
-                    <thead className="bg-muted/50 text-left">
-                        <tr>
-                            <th className="p-3 font-medium">Nama</th>
-                            <th className="p-3 font-medium">Tipe</th>
-                            <th className="p-3 font-medium">Status</th>
-                            <th className="p-3 font-medium">Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody>
+                <Table className="w-full text-sm">
+                    <TableHeader className="bg-muted/50 text-left">
+                        <TableRow>
+                            <TableHead className="p-3 font-medium">
+                                Nama
+                            </TableHead>
+                            <TableHead className="p-3 font-medium">
+                                Tipe
+                            </TableHead>
+                            <TableHead className="p-3 font-medium">
+                                Status
+                            </TableHead>
+                            <TableHead className="p-3 font-medium">
+                                Aksi
+                            </TableHead>
+                        </TableRow>
+                    </TableHeader>
+                    <TableBody>
                         {metodePembayarans.map((metode) =>
                             editingId === metode.id ? (
-                                <tr
+                                <TableRow
                                     key={metode.id}
                                     className="border-t bg-muted/30"
                                 >
-                                    <td colSpan={4} className="p-3">
+                                    <TableCell colSpan={4} className="p-3">
                                         <Form
                                             {...MetodePembayaranController.update.form(
                                                 metode.id,
@@ -118,9 +136,8 @@ export default function MetodePembayaranIndex({ metodePembayarans }) {
                                                             Payment Gateway
                                                         </option>
                                                     </NativeSelect>
-                                                    <label className="flex items-center gap-2 text-sm">
-                                                        <input
-                                                            type="checkbox"
+                                                    <Label className="flex items-center gap-2 text-sm">
+                                                        <Checkbox
                                                             name="aktif"
                                                             value="1"
                                                             defaultChecked={
@@ -128,7 +145,7 @@ export default function MetodePembayaranIndex({ metodePembayarans }) {
                                                             }
                                                         />
                                                         Aktif
-                                                    </label>
+                                                    </Label>
                                                     <div className="flex gap-2">
                                                         <Button
                                                             size="sm"
@@ -154,20 +171,22 @@ export default function MetodePembayaranIndex({ metodePembayarans }) {
                                                 </>
                                             )}
                                         </Form>
-                                    </td>
-                                </tr>
+                                    </TableCell>
+                                </TableRow>
                             ) : (
-                                <tr key={metode.id} className="border-t">
-                                    <td className="p-3">{metode.nama}</td>
-                                    <td className="p-3">
+                                <TableRow key={metode.id} className="border-t">
+                                    <TableCell className="p-3">
+                                        {metode.nama}
+                                    </TableCell>
+                                    <TableCell className="p-3">
                                         {metode.tipe === 'manual'
                                             ? 'Manual'
                                             : 'Payment Gateway'}
-                                    </td>
-                                    <td className="p-3">
+                                    </TableCell>
+                                    <TableCell className="p-3">
                                         {metode.aktif ? 'Aktif' : 'Nonaktif'}
-                                    </td>
-                                    <td className="p-3">
+                                    </TableCell>
+                                    <TableCell className="p-3">
                                         <div className="flex items-center gap-2">
                                             <Button
                                                 size="sm"
@@ -203,22 +222,22 @@ export default function MetodePembayaranIndex({ metodePembayarans }) {
                                                 )}
                                             </Form>
                                         </div>
-                                    </td>
-                                </tr>
+                                    </TableCell>
+                                </TableRow>
                             ),
                         )}
                         {metodePembayarans.length === 0 && (
-                            <tr>
-                                <td
+                            <TableRow>
+                                <TableCell
                                     className="p-3 text-muted-foreground"
                                     colSpan={4}
                                 >
                                     Belum ada metode pembayaran.
-                                </td>
-                            </tr>
+                                </TableCell>
+                            </TableRow>
                         )}
-                    </tbody>
-                </table>
+                    </TableBody>
+                </Table>
             </div>
         </div>
     );

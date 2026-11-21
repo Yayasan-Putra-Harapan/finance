@@ -1,4 +1,5 @@
 import { Form, Head } from '@inertiajs/react';
+import { Label } from '@/components/ui/label';
 import EwsSettingController from '@/actions/App/Http/Controllers/Keuangan/EwsSettingController';
 import Heading from '@/components/heading';
 import InputError from '@/components/input-error';
@@ -26,12 +27,12 @@ export default function EwsSettingEdit({ setting }) {
                             Ambang rasio proyeksi SES (utama)
                         </p>
                         <div className="grid gap-1.5">
-                            <label
+                            <Label
                                 className="text-sm font-medium"
                                 htmlFor="proyeksi_waspada"
                             >
                                 Batas Waspada (proyeksi / pagu)
-                            </label>
+                            </Label>
                             <Input
                                 id="proyeksi_waspada"
                                 name="proyeksi_waspada"
@@ -43,12 +44,12 @@ export default function EwsSettingEdit({ setting }) {
                             <InputError message={errors.proyeksi_waspada} />
                         </div>
                         <div className="grid gap-1.5">
-                            <label
+                            <Label
                                 className="text-sm font-medium"
                                 htmlFor="proyeksi_kritis"
                             >
                                 Batas Kritis (proyeksi / pagu)
-                            </label>
+                            </Label>
                             <Input
                                 id="proyeksi_kritis"
                                 name="proyeksi_kritis"
@@ -60,12 +61,12 @@ export default function EwsSettingEdit({ setting }) {
                             <InputError message={errors.proyeksi_kritis} />
                         </div>
                         <div className="grid gap-1.5">
-                            <label
+                            <Label
                                 className="text-sm font-medium"
                                 htmlFor="proyeksi_melebihi"
                             >
                                 Batas Melebihi Anggaran (proyeksi / pagu)
-                            </label>
+                            </Label>
                             <Input
                                 id="proyeksi_melebihi"
                                 name="proyeksi_melebihi"
@@ -77,13 +78,13 @@ export default function EwsSettingEdit({ setting }) {
                             <InputError message={errors.proyeksi_melebihi} />
                         </div>
                         <div className="grid gap-1.5">
-                            <label
+                            <Label
                                 className="text-sm font-medium"
                                 htmlFor="alpha_ses"
                             >
                                 Alpha SES tetap (kosongkan = otomatis, MAPE
                                 terkecil)
-                            </label>
+                            </Label>
                             <Input
                                 id="alpha_ses"
                                 name="alpha_ses"
@@ -103,12 +104,12 @@ export default function EwsSettingEdit({ setting }) {
                             dari 6 bulan)
                         </p>
                         <div className="grid gap-1.5">
-                            <label
+                            <Label
                                 className="text-sm font-medium"
                                 htmlFor="batas_waspada"
                             >
                                 Batas Waspada (rasio serapan &gt; nilai ini)
-                            </label>
+                            </Label>
                             <Input
                                 id="batas_waspada"
                                 name="batas_waspada"
@@ -120,12 +121,12 @@ export default function EwsSettingEdit({ setting }) {
                             <InputError message={errors.batas_waspada} />
                         </div>
                         <div className="grid gap-1.5">
-                            <label
+                            <Label
                                 className="text-sm font-medium"
                                 htmlFor="batas_kritis"
                             >
                                 Batas Kritis
-                            </label>
+                            </Label>
                             <Input
                                 id="batas_kritis"
                                 name="batas_kritis"
@@ -137,12 +138,12 @@ export default function EwsSettingEdit({ setting }) {
                             <InputError message={errors.batas_kritis} />
                         </div>
                         <div className="grid gap-1.5">
-                            <label
+                            <Label
                                 className="text-sm font-medium"
                                 htmlFor="batas_melebihi"
                             >
                                 Batas Melebihi Anggaran
-                            </label>
+                            </Label>
                             <Input
                                 id="batas_melebihi"
                                 name="batas_melebihi"

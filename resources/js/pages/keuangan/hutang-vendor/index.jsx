@@ -1,4 +1,13 @@
 import { Form, Head } from '@inertiajs/react';
+import {
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
+} from '@/components/ui/table';
+import { Label } from '@/components/ui/label';
 import { useState } from 'react';
 import HutangVendorController from '@/actions/App/Http/Controllers/Keuangan/HutangVendorController';
 import { UnitFilter } from '@/components/unit-filter';
@@ -41,12 +50,12 @@ export default function HutangVendorIndex({
                 {({ processing, errors }) => (
                     <>
                         <div className="grid gap-1.5">
-                            <label
+                            <Label
                                 className="text-sm font-medium"
                                 htmlFor="unit_id"
                             >
                                 Unit
-                            </label>
+                            </Label>
                             <NativeSelect
                                 id="unit_id"
                                 name="unit_id"
@@ -65,12 +74,12 @@ export default function HutangVendorIndex({
                             <InputError message={errors.unit_id} />
                         </div>
                         <div className="grid gap-1.5">
-                            <label
+                            <Label
                                 className="text-sm font-medium"
                                 htmlFor="vendor_id"
                             >
                                 Vendor
-                            </label>
+                            </Label>
                             <NativeSelect
                                 id="vendor_id"
                                 name="vendor_id"
@@ -89,12 +98,12 @@ export default function HutangVendorIndex({
                             <InputError message={errors.vendor_id} />
                         </div>
                         <div className="grid gap-1.5">
-                            <label
+                            <Label
                                 className="text-sm font-medium"
                                 htmlFor="nomor_invoice"
                             >
                                 No. Invoice
-                            </label>
+                            </Label>
                             <Input
                                 id="nomor_invoice"
                                 name="nomor_invoice"
@@ -102,12 +111,12 @@ export default function HutangVendorIndex({
                             />
                         </div>
                         <div className="grid gap-1.5">
-                            <label
+                            <Label
                                 className="text-sm font-medium"
                                 htmlFor="nominal"
                             >
                                 Nominal
-                            </label>
+                            </Label>
                             <Input
                                 id="nominal"
                                 name="nominal"
@@ -119,22 +128,22 @@ export default function HutangVendorIndex({
                             <InputError message={errors.nominal} />
                         </div>
                         <div className="grid gap-1.5 md:col-span-2">
-                            <label
+                            <Label
                                 className="text-sm font-medium"
                                 htmlFor="deskripsi"
                             >
                                 Deskripsi
-                            </label>
+                            </Label>
                             <Input id="deskripsi" name="deskripsi" required />
                             <InputError message={errors.deskripsi} />
                         </div>
                         <div className="grid gap-1.5">
-                            <label
+                            <Label
                                 className="text-sm font-medium"
                                 htmlFor="jatuh_tempo"
                             >
                                 Jatuh Tempo
-                            </label>
+                            </Label>
                             <Input
                                 id="jatuh_tempo"
                                 name="jatuh_tempo"
@@ -153,30 +162,44 @@ export default function HutangVendorIndex({
             </Form>
 
             <div className="overflow-x-auto rounded-xl border">
-                <table className="w-full text-sm">
-                    <thead className="bg-muted/50 text-left">
-                        <tr>
-                            <th className="p-3 font-medium">Unit</th>
-                            <th className="p-3 font-medium">Vendor</th>
-                            <th className="p-3 font-medium">Deskripsi</th>
-                            <th className="p-3 font-medium">Nominal</th>
-                            <th className="p-3 font-medium">Jatuh Tempo</th>
-                            <th className="p-3 font-medium">Status</th>
-                            <th className="p-3 font-medium">Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody>
+                <Table className="w-full text-sm">
+                    <TableHeader className="bg-muted/50 text-left">
+                        <TableRow>
+                            <TableHead className="p-3 font-medium">
+                                Unit
+                            </TableHead>
+                            <TableHead className="p-3 font-medium">
+                                Vendor
+                            </TableHead>
+                            <TableHead className="p-3 font-medium">
+                                Deskripsi
+                            </TableHead>
+                            <TableHead className="p-3 font-medium">
+                                Nominal
+                            </TableHead>
+                            <TableHead className="p-3 font-medium">
+                                Jatuh Tempo
+                            </TableHead>
+                            <TableHead className="p-3 font-medium">
+                                Status
+                            </TableHead>
+                            <TableHead className="p-3 font-medium">
+                                Aksi
+                            </TableHead>
+                        </TableRow>
+                    </TableHeader>
+                    <TableBody>
                         {hutangs.map((h) => {
                             const accountsForUnit = kasBankAccounts.filter(
                                 (a) => a.unit_id === h.unit_id,
                             );
                             if (editingId === h.id) {
                                 return (
-                                    <tr
+                                    <TableRow
                                         key={h.id}
                                         className="border-t bg-muted/30"
                                     >
-                                        <td colSpan={7} className="p-3">
+                                        <TableCell colSpan={7} className="p-3">
                                             <Form
                                                 {...HutangVendorController.update.form(
                                                     h.id,
@@ -269,32 +292,39 @@ export default function HutangVendorIndex({
                                                     </>
                                                 )}
                                             </Form>
-                                        </td>
-                                    </tr>
+                                        </TableCell>
+                                    </TableRow>
                                 );
                             }
                             return (
-                                <tr key={h.id} className="border-t align-top">
-                                    <td className="p-3">{h.unit.nama}</td>
-                                    <td className="p-3">{h.vendor.nama}</td>
-                                    <td className="p-3">
+                                <TableRow
+                                    key={h.id}
+                                    className="border-t align-top"
+                                >
+                                    <TableCell className="p-3">
+                                        {h.unit.nama}
+                                    </TableCell>
+                                    <TableCell className="p-3">
+                                        {h.vendor.nama}
+                                    </TableCell>
+                                    <TableCell className="p-3">
                                         {h.deskripsi}
                                         {h.nomor_invoice && (
                                             <div className="text-xs text-muted-foreground">
                                                 #{h.nomor_invoice}
                                             </div>
                                         )}
-                                    </td>
-                                    <td className="p-3">
+                                    </TableCell>
+                                    <TableCell className="p-3">
                                         {formatRupiah(h.nominal)}
-                                    </td>
-                                    <td className="p-3 text-xs">
+                                    </TableCell>
+                                    <TableCell className="p-3 text-xs">
                                         {h.jatuh_tempo}
-                                    </td>
-                                    <td className="p-3 capitalize">
+                                    </TableCell>
+                                    <TableCell className="p-3 capitalize">
                                         {h.status.replace('_', ' ')}
-                                    </td>
-                                    <td className="p-3">
+                                    </TableCell>
+                                    <TableCell className="p-3">
                                         <div className="flex flex-col gap-2">
                                             {h.status !== 'lunas' && (
                                                 <Form
@@ -394,22 +424,22 @@ export default function HutangVendorIndex({
                                                 )}
                                             </Form>
                                         </div>
-                                    </td>
-                                </tr>
+                                    </TableCell>
+                                </TableRow>
                             );
                         })}
                         {hutangs.length === 0 && (
-                            <tr>
-                                <td
+                            <TableRow>
+                                <TableCell
                                     className="p-3 text-muted-foreground"
                                     colSpan={7}
                                 >
                                     Belum ada hutang vendor.
-                                </td>
-                            </tr>
+                                </TableCell>
+                            </TableRow>
                         )}
-                    </tbody>
-                </table>
+                    </TableBody>
+                </Table>
             </div>
         </div>
     );
