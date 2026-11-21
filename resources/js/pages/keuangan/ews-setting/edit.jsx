@@ -81,7 +81,8 @@ export default function EwsSettingEdit({ setting }) {
                                 className="text-sm font-medium"
                                 htmlFor="alpha_ses"
                             >
-                                Alpha SES tetap (kosongkan = otomatis, MAPE terkecil)
+                                Alpha SES tetap (kosongkan = otomatis, MAPE
+                                terkecil)
                             </label>
                             <Input
                                 id="alpha_ses"
@@ -89,7 +90,6 @@ export default function EwsSettingEdit({ setting }) {
                                 type="number"
                                 step="0.01"
                                 defaultValue={setting.alpha_ses}
-                                
                             />
                             <InputError message={errors.alpha_ses} />
                         </div>

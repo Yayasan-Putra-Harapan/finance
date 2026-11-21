@@ -55,7 +55,11 @@ export default function TransaksiIndex({
                     <label className="text-sm font-medium" htmlFor="f_jenis">
                         Jenis
                     </label>
-                    <NativeSelect id="f_jenis" name="jenis" defaultValue={filterJenis ?? ''}>
+                    <NativeSelect
+                        id="f_jenis"
+                        name="jenis"
+                        defaultValue={filterJenis ?? ''}
+                    >
                         <option value="">Semua</option>
                         <option value="masuk">Pemasukan</option>
                         <option value="keluar">Pengeluaran</option>
@@ -65,7 +69,11 @@ export default function TransaksiIndex({
                     <label className="text-sm font-medium" htmlFor="f_kategori">
                         Kategori
                     </label>
-                    <NativeSelect id="f_kategori" name="kategori" defaultValue={filterKategori ?? ''}>
+                    <NativeSelect
+                        id="f_kategori"
+                        name="kategori"
+                        defaultValue={filterKategori ?? ''}
+                    >
                         <option value="">Semua</option>
                         {kategoriOptions.map((k) => (
                             <option key={k} value={k}>
@@ -78,13 +86,23 @@ export default function TransaksiIndex({
                     <label className="text-sm font-medium" htmlFor="f_dari">
                         Dari
                     </label>
-                    <Input id="f_dari" name="dari" type="date" defaultValue={filterDari ?? ''} />
+                    <Input
+                        id="f_dari"
+                        name="dari"
+                        type="date"
+                        defaultValue={filterDari ?? ''}
+                    />
                 </div>
                 <div className="grid gap-1">
                     <label className="text-sm font-medium" htmlFor="f_sampai">
                         Sampai
                     </label>
-                    <Input id="f_sampai" name="sampai" type="date" defaultValue={filterSampai ?? ''} />
+                    <Input
+                        id="f_sampai"
+                        name="sampai"
+                        type="date"
+                        defaultValue={filterSampai ?? ''}
+                    />
                 </div>
                 <Button type="submit" variant="outline">
                     Terapkan
@@ -336,8 +354,14 @@ export default function TransaksiIndex({
                                 </td>
                                 <td className="flex gap-2 p-3">
                                     {t.dapat_diubah && (
-                                        <Button variant="outline" size="sm" asChild>
-                                            <Link href={transaksiEdit(t.id).url}>
+                                        <Button
+                                            variant="outline"
+                                            size="sm"
+                                            asChild
+                                        >
+                                            <Link
+                                                href={transaksiEdit(t.id).url}
+                                            >
                                                 Ubah
                                             </Link>
                                         </Button>

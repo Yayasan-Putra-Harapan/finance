@@ -7,21 +7,21 @@ Kondisi akhir: 106 test lulus, phpstan 0 error, pint bersih, `npm run build` suk
 
 ## Sudah dikerjakan
 
-| # | Kekurangan | Perubahan |
-|---|------------|-----------|
-| 1 | Status EWS tidak diperbarui oleh waktu | Command `ews:evaluasi` dijadwalkan harian 01:00 (`routes/console.php`); sekaligus menyimpan proyeksi SES. |
-| 2 | phpstan gagal | `TransaksiObserver` diperbaiki. |
-| 3 | pint gagal | `FortifyServiceProvider` dan line ending dirapikan. |
-| 4 | Transaksi tidak bisa diubah, tanpa riwayat | Rute dan halaman Ubah; tabel `transaksi_riwayats` (dibuat, diubah, dihapus, siapa, apa yang berubah); halaman Riwayat. Transaksi dari tagihan siswa, gaji, dan hutang vendor tidak bisa diubah dari sini. |
-| 5 | Daftar transaksi dibatasi 200 baris | Paginasi 25 baris, filter unit, jenis, kategori, periode; daftar kategori baku (SPP, BOS, Infaq, dst.). |
-| 6 | Sinkron orang tua dan tahun ajaran belum ada | `master:sync-orang-tua`, `master:sync-tahun-ajaran`; siswa menyimpan `orang_tua_mdm_id`. |
-| 7 | Anonimisasi hanya manual | Sinkron siswa, karyawan, dan orang tua anonim secara default (`YAYASAN_MASTER_ANONYMIZE=true`, kontak dibuang). Set `false` hanya bila pengingat tagihan ke orang tua dibutuhkan. |
-| 8 | Postman hanya markdown | `docs/postman/` berisi collection dan environment. |
-| 9 | Rumus EWS tidak sesuai proposal | Rasio proyeksi = (realisasi + proyeksi SES) / pagu menjadi dasar klasifikasi utama; rasio serapan terhadap pace waktu menjadi cadangan bila riwayat < 6 bulan. Ambang proyeksi (default 0,80 / 0,90 / 1,00) dapat diatur admin. |
-| 10 | Tabel MAPE per alpha dan alpha tetap | Halaman Proyeksi SES menampilkan MAPE tiap alpha; `ses:eksperimen [--simpan]` menghitung MAPE rata-rata lintas deret; `alpha_ses` bisa diatur di Konfigurasi EWS (kosong = alpha terbaik per deret). |
-| 11 | Notifikasi tagihan ke orang tua belum ada | `tagihan:ingatkan` dijadwalkan harian 07:00, kirim email ke orang tua (kontak dari master data). |
-| 12 | Gaji tidak masuk realisasi RAB | `Penggajian::bayar` menghubungkan transaksi ke RAB Gaji yang berlaku. |
-| 13 | Dokumen pengujian | `docs/pengujian-black-box.md`. |
+| #   | Kekurangan                                   | Perubahan                                                                                                                                                                                                                       |
+| --- | -------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1   | Status EWS tidak diperbarui oleh waktu       | Command `ews:evaluasi` dijadwalkan harian 01:00 (`routes/console.php`); sekaligus menyimpan proyeksi SES.                                                                                                                       |
+| 2   | phpstan gagal                                | `TransaksiObserver` diperbaiki.                                                                                                                                                                                                 |
+| 3   | pint gagal                                   | `FortifyServiceProvider` dan line ending dirapikan.                                                                                                                                                                             |
+| 4   | Transaksi tidak bisa diubah, tanpa riwayat   | Rute dan halaman Ubah; tabel `transaksi_riwayats` (dibuat, diubah, dihapus, siapa, apa yang berubah); halaman Riwayat. Transaksi dari tagihan siswa, gaji, dan hutang vendor tidak bisa diubah dari sini.                       |
+| 5   | Daftar transaksi dibatasi 200 baris          | Paginasi 25 baris, filter unit, jenis, kategori, periode; daftar kategori baku (SPP, BOS, Infaq, dst.).                                                                                                                         |
+| 6   | Sinkron orang tua dan tahun ajaran belum ada | `master:sync-orang-tua`, `master:sync-tahun-ajaran`; siswa menyimpan `orang_tua_mdm_id`.                                                                                                                                        |
+| 7   | Anonimisasi hanya manual                     | Sinkron siswa, karyawan, dan orang tua anonim secara default (`YAYASAN_MASTER_ANONYMIZE=true`, kontak dibuang). Set `false` hanya bila pengingat tagihan ke orang tua dibutuhkan.                                               |
+| 8   | Postman hanya markdown                       | `docs/postman/` berisi collection dan environment.                                                                                                                                                                              |
+| 9   | Rumus EWS tidak sesuai proposal              | Rasio proyeksi = (realisasi + proyeksi SES) / pagu menjadi dasar klasifikasi utama; rasio serapan terhadap pace waktu menjadi cadangan bila riwayat < 6 bulan. Ambang proyeksi (default 0,80 / 0,90 / 1,00) dapat diatur admin. |
+| 10  | Tabel MAPE per alpha dan alpha tetap         | Halaman Proyeksi SES menampilkan MAPE tiap alpha; `ses:eksperimen [--simpan]` menghitung MAPE rata-rata lintas deret; `alpha_ses` bisa diatur di Konfigurasi EWS (kosong = alpha terbaik per deret).                            |
+| 11  | Notifikasi tagihan ke orang tua belum ada    | `tagihan:ingatkan` dijadwalkan harian 07:00, kirim email ke orang tua (kontak dari master data).                                                                                                                                |
+| 12  | Gaji tidak masuk realisasi RAB               | `Penggajian::bayar` menghubungkan transaksi ke RAB Gaji yang berlaku.                                                                                                                                                           |
+| 13  | Dokumen pengujian                            | `docs/pengujian-black-box.md`.                                                                                                                                                                                                  |
 
 Test baru: `tests/Feature/Keuangan/ProposalAlignmentTest.php` (17 test).
 

@@ -22,7 +22,10 @@ function ringkas(r) {
 
     if (r.aksi === 'diubah') {
         return Object.entries(p)
-            .map(([k, v]) => `${KOLOM[k] ?? k}: ${v.dari ?? '-'} → ${v.menjadi ?? '-'}`)
+            .map(
+                ([k, v]) =>
+                    `${KOLOM[k] ?? k}: ${v.dari ?? '-'} → ${v.menjadi ?? '-'}`,
+            )
             .join('; ');
     }
 
@@ -37,7 +40,11 @@ export default function TransaksiRiwayat({ riwayats, units, filterUnitId }) {
                 title="Riwayat Perubahan Transaksi"
                 description="Jejak audit: siapa menambah, mengubah, atau menghapus transaksi, termasuk yang sudah dihapus."
             />
-            <UnitFilter units={units} value={filterUnitId} action={riwayat().url} />
+            <UnitFilter
+                units={units}
+                value={filterUnitId}
+                action={riwayat().url}
+            />
             <div className="overflow-x-auto rounded-xl border">
                 <table className="w-full text-sm">
                     <thead className="bg-muted/50 text-left">
@@ -54,18 +61,27 @@ export default function TransaksiRiwayat({ riwayats, units, filterUnitId }) {
                         {riwayats.data.map((r) => (
                             <tr key={r.id} className="border-t">
                                 <td className="p-3 text-xs">
-                                    {new Date(r.created_at).toLocaleString('id-ID')}
+                                    {new Date(r.created_at).toLocaleString(
+                                        'id-ID',
+                                    )}
                                 </td>
                                 <td className="p-3">{r.unit?.nama ?? '-'}</td>
                                 <td className="p-3">#{r.transaksi_id}</td>
-                                <td className="p-3 font-medium capitalize">{r.aksi}</td>
+                                <td className="p-3 font-medium capitalize">
+                                    {r.aksi}
+                                </td>
                                 <td className="p-3">{r.user?.name ?? '-'}</td>
-                                <td className="p-3 text-xs text-muted-foreground">{ringkas(r)}</td>
+                                <td className="p-3 text-xs text-muted-foreground">
+                                    {ringkas(r)}
+                                </td>
                             </tr>
                         ))}
                         {riwayats.data.length === 0 && (
                             <tr>
-                                <td className="p-3 text-muted-foreground" colSpan={6}>
+                                <td
+                                    className="p-3 text-muted-foreground"
+                                    colSpan={6}
+                                >
                                     Belum ada riwayat.
                                 </td>
                             </tr>

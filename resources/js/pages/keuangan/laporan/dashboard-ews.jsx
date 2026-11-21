@@ -187,7 +187,9 @@ export default function DashboardEws({
                             <th className="p-3 font-medium">Pagu</th>
                             <th className="p-3 font-medium">Realisasi</th>
                             <th className="p-3 font-medium">Rasio Serapan</th>
-                            <th className="p-3 font-medium">Rasio Proyeksi SES</th>
+                            <th className="p-3 font-medium">
+                                Rasio Proyeksi SES
+                            </th>
                             <th className="p-3 font-medium">Status</th>
                         </tr>
                     </thead>

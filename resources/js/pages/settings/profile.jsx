@@ -10,9 +10,7 @@ import { Label } from '@/components/ui/label';
 import { edit } from '@/routes/profile';
 import { send } from '@/routes/verification';
 
-export default function Profile(
-    { mustVerifyEmail, status },
-) {
+export default function Profile({ mustVerifyEmail, status }) {
     const { auth } = usePage().props;
     return (
         <>

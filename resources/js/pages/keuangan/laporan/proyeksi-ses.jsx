@@ -126,7 +126,9 @@ export default function ProyeksiSes({
                                 <tr>
                                     <th className="p-3 font-medium">Alpha</th>
                                     <th className="p-3 font-medium">MAPE</th>
-                                    <th className="p-3 font-medium">Proyeksi</th>
+                                    <th className="p-3 font-medium">
+                                        Proyeksi
+                                    </th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -136,8 +138,12 @@ export default function ProyeksiSes({
                                         className={`border-t ${u.alpha === hasil.alpha ? 'bg-muted/40 font-medium' : ''}`}
                                     >
                                         <td className="p-3">{u.alpha}</td>
-                                        <td className="p-3">{u.mape.toFixed(2)}%</td>
-                                        <td className="p-3">{formatRupiah(u.proyeksi)}</td>
+                                        <td className="p-3">
+                                            {u.mape.toFixed(2)}%
+                                        </td>
+                                        <td className="p-3">
+                                            {formatRupiah(u.proyeksi)}
+                                        </td>
                                     </tr>
                                 ))}
                             </tbody>

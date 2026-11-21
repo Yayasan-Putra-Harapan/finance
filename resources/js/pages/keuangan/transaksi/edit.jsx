@@ -56,7 +56,11 @@ export default function TransaksiEdit({
             >
                 {({ processing, errors }) => (
                     <>
-                        <Field id="kategori" label="Kategori" error={errors.kategori}>
+                        <Field
+                            id="kategori"
+                            label="Kategori"
+                            error={errors.kategori}
+                        >
                             <Input
                                 id="kategori"
                                 name="kategori"
@@ -70,7 +74,11 @@ export default function TransaksiEdit({
                                 ))}
                             </datalist>
                         </Field>
-                        <Field id="nominal" label="Nominal" error={errors.nominal}>
+                        <Field
+                            id="nominal"
+                            label="Nominal"
+                            error={errors.nominal}
+                        >
                             <Input
                                 id="nominal"
                                 name="nominal"
@@ -81,12 +89,19 @@ export default function TransaksiEdit({
                                 required
                             />
                         </Field>
-                        <Field id="tanggal" label="Tanggal" error={errors.tanggal}>
+                        <Field
+                            id="tanggal"
+                            label="Tanggal"
+                            error={errors.tanggal}
+                        >
                             <Input
                                 id="tanggal"
                                 name="tanggal"
                                 type="date"
-                                defaultValue={String(transaksi.tanggal).slice(0, 10)}
+                                defaultValue={String(transaksi.tanggal).slice(
+                                    0,
+                                    10,
+                                )}
                                 required
                             />
                         </Field>
@@ -122,7 +137,11 @@ export default function TransaksiEdit({
                             items={metodePembayarans}
                             render={(m) => m.nama}
                         />
-                        <Field id="keterangan" label="Keterangan" error={errors.keterangan}>
+                        <Field
+                            id="keterangan"
+                            label="Keterangan"
+                            error={errors.keterangan}
+                        >
                             <Input
                                 id="keterangan"
                                 name="keterangan"
