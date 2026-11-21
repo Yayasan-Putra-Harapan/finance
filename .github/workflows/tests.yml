@@ -60,7 +60,7 @@ jobs:
         run: npm ci && npm run build
 
       - name: Sync files to server
-        uses: burnett01/rsync-deployments@0dc935a7596571a7a22a01c4f914b5150a73062e # v7.0.1
+        uses: burnett01/rsync-deployments@796cf0d5e4b535745ce49d7429f77cf39e25ef39 # 7.0.1
         with:
           switches: >-
             -avzr --delete
