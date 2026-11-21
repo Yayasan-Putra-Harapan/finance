@@ -49,6 +49,8 @@ return [
         'base_url' => env('YAYASAN_MASTER_API_URL', 'https://gevano.my.id/api/v1'),
         'token' => env('YAYASAN_MASTER_API_TOKEN'),
         'ca_bundle' => env('YAYASAN_MASTER_API_CA_BUNDLE'),
+        // NF-02: nama/kontak dianonimkan saat sinkron. Set false hanya di produksi yang butuh kontak asli.
+        'anonymize' => env('YAYASAN_MASTER_ANONYMIZE', true),
     ],
 
 ];

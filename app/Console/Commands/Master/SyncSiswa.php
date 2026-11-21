@@ -25,12 +25,14 @@ class SyncSiswa extends Command
         $siswa = $client->getAllPages('siswa');
 
         $jumlah = 0;
+        $anonim = $client->anonimkan(); // NF-02
 
         foreach ($siswa as $s) {
             Siswa::query()->updateOrCreate(
                 ['kode_siswa' => $s['nis']],
                 [
-                    'nama_siswa' => $s['nama_lengkap'],
+                    'nama_siswa' => $anonim ? "Siswa {$s['nis']}" : $s['nama_lengkap'],
+                    'orang_tua_mdm_id' => $s['orang_tua_id'] ?? null,
                     'kode_unit' => $s['unit']['kode_unit'] ?? null,
                     'status_aktif' => ($s['status'] ?? 'aktif') === 'aktif',
                 ],

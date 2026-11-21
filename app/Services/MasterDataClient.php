@@ -32,6 +32,11 @@ class MasterDataClient
         $this->token = $token ?? config('services.yayasan_master.token');
     }
 
+    public function anonimkan(): bool
+    {
+        return (bool) config('services.yayasan_master.anonymize', true);
+    }
+
     public function isConfigured(): bool
     {
         return filled($this->baseUrl) && filled($this->token);

@@ -25,12 +25,13 @@ class SyncKaryawan extends Command
         $karyawan = $client->getAllPages('karyawan');
 
         $jumlah = 0;
+        $anonim = $client->anonimkan(); // NF-02
 
         foreach ($karyawan as $k) {
             Karyawan::query()->updateOrCreate(
                 ['kode_pegawai' => $k['nip']],
                 [
-                    'nama_pegawai' => $k['nama'],
+                    'nama_pegawai' => $anonim ? "Pegawai {$k['nip']}" : $k['nama'],
                     'kode_unit' => $k['unit']['kode_unit'] ?? null,
                     'jabatan' => $k['role'] ?? null,
                     'status_aktif' => (bool) ($k['is_aktif'] ?? true),
