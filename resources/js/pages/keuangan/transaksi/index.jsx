@@ -1,14 +1,19 @@
-import { Form, Head } from '@inertiajs/react';
+import { Form, Head, Link } from '@inertiajs/react';
 import TransaksiController from '@/actions/App/Http/Controllers/Keuangan/TransaksiController';
 import { UnitFilter } from '@/components/unit-filter';
 import Heading from '@/components/heading';
+import { Pagination } from '@/components/pagination';
 import InputError from '@/components/input-error';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { NativeSelect } from '@/components/ui/native-select';
 import { formatRupiah } from '@/lib/utils';
 import { dashboard } from '@/routes';
-import { index as transaksiIndex } from '@/routes/keuangan/transaksi';
+import {
+    edit as transaksiEdit,
+    index as transaksiIndex,
+    riwayat as transaksiRiwayat,
+} from '@/routes/keuangan/transaksi';
 export default function TransaksiIndex({
     transaksis,
     units,
@@ -17,6 +22,11 @@ export default function TransaksiIndex({
     metodePembayarans,
     anggarans,
     filterUnitId,
+    filterJenis,
+    filterKategori,
+    filterDari,
+    filterSampai,
+    kategoriOptions,
 }) {
     return (
         <div className="flex flex-1 flex-col gap-6 p-4">
@@ -32,6 +42,57 @@ export default function TransaksiIndex({
                 value={filterUnitId}
                 action={transaksiIndex().url}
             />
+
+            <form
+                method="get"
+                action={transaksiIndex().url}
+                className="flex flex-wrap items-end gap-3"
+            >
+                {filterUnitId && (
+                    <input type="hidden" name="unit_id" value={filterUnitId} />
+                )}
+                <div className="grid gap-1">
+                    <label className="text-sm font-medium" htmlFor="f_jenis">
+                        Jenis
+                    </label>
+                    <NativeSelect id="f_jenis" name="jenis" defaultValue={filterJenis ?? ''}>
+                        <option value="">Semua</option>
+                        <option value="masuk">Pemasukan</option>
+                        <option value="keluar">Pengeluaran</option>
+                    </NativeSelect>
+                </div>
+                <div className="grid gap-1">
+                    <label className="text-sm font-medium" htmlFor="f_kategori">
+                        Kategori
+                    </label>
+                    <NativeSelect id="f_kategori" name="kategori" defaultValue={filterKategori ?? ''}>
+                        <option value="">Semua</option>
+                        {kategoriOptions.map((k) => (
+                            <option key={k} value={k}>
+                                {k}
+                            </option>
+                        ))}
+                    </NativeSelect>
+                </div>
+                <div className="grid gap-1">
+                    <label className="text-sm font-medium" htmlFor="f_dari">
+                        Dari
+                    </label>
+                    <Input id="f_dari" name="dari" type="date" defaultValue={filterDari ?? ''} />
+                </div>
+                <div className="grid gap-1">
+                    <label className="text-sm font-medium" htmlFor="f_sampai">
+                        Sampai
+                    </label>
+                    <Input id="f_sampai" name="sampai" type="date" defaultValue={filterSampai ?? ''} />
+                </div>
+                <Button type="submit" variant="outline">
+                    Terapkan
+                </Button>
+                <Button variant="ghost" asChild>
+                    <Link href={transaksiRiwayat().url}>Riwayat perubahan</Link>
+                </Button>
+            </form>
 
             <Form
                 {...TransaksiController.store.form()}
@@ -91,9 +152,15 @@ export default function TransaksiIndex({
                             <Input
                                 id="kategori"
                                 name="kategori"
+                                list="kategori-list"
                                 placeholder="Operasional / SPP"
                                 required
                             />
+                            <datalist id="kategori-list">
+                                {kategoriOptions.map((k) => (
+                                    <option key={k} value={k} />
+                                ))}
+                            </datalist>
                             <InputError message={errors.kategori} />
                         </div>
                         <div className="grid gap-1.5">
@@ -248,7 +315,7 @@ export default function TransaksiIndex({
                         </tr>
                     </thead>
                     <tbody>
-                        {transaksis.map((t) => (
+                        {transaksis.data.map((t) => (
                             <tr key={t.id} className="border-t">
                                 <td className="p-3 text-xs">{t.tanggal}</td>
                                 <td className="p-3">{t.unit.nama}</td>
@@ -267,7 +334,14 @@ export default function TransaksiIndex({
                                 <td className="p-3 text-xs text-muted-foreground">
                                     {t.keterangan ?? '-'}
                                 </td>
-                                <td className="p-3">
+                                <td className="flex gap-2 p-3">
+                                    {t.dapat_diubah && (
+                                        <Button variant="outline" size="sm" asChild>
+                                            <Link href={transaksiEdit(t.id).url}>
+                                                Ubah
+                                            </Link>
+                                        </Button>
+                                    )}
                                     <Form
                                         {...TransaksiController.destroy.form(
                                             t.id,
@@ -295,7 +369,7 @@ export default function TransaksiIndex({
                                 </td>
                             </tr>
                         ))}
-                        {transaksis.length === 0 && (
+                        {transaksis.data.length === 0 && (
                             <tr>
                                 <td
                                     className="p-3 text-muted-foreground"
@@ -308,6 +382,7 @@ export default function TransaksiIndex({
                     </tbody>
                 </table>
             </div>
+            <Pagination links={transaksis.links} />
         </div>
     );
 }

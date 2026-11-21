@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Keuangan;
 use App\Http\Controllers\Concerns\FlashesToast;
 use App\Http\Controllers\Concerns\ScopesToUnit;
 use App\Http\Controllers\Controller;
+use App\Models\Anggaran;
 use App\Models\KasBankAccount;
 use App\Models\Penggajian;
 use App\Models\Transaksi;
@@ -96,12 +97,23 @@ class PenggajianController extends Controller
             'tanggal_bayar' => ['required', 'date'],
         ]);
 
+        // Hubungkan ke RAB gaji yang berlaku agar pembayaran gaji ikut realisasi & EWS.
+        $anggaran = Anggaran::query()
+            ->where('unit_id', $penggajian->unit_id)
+            ->where('jenis', 'pengeluaran')
+            ->where('status', 'disetujui')
+            ->whereIn('kategori', ['Gaji', 'Penggajian'])
+            ->whereDate('periode_mulai', '<=', $data['tanggal_bayar'])
+            ->whereDate('periode_selesai', '>=', $data['tanggal_bayar'])
+            ->first();
+
         $transaksi = Transaksi::query()->create([
             'unit_id' => $penggajian->unit_id,
+            'anggaran_id' => $anggaran?->id,
             'kas_bank_account_id' => $data['kas_bank_account_id'],
             'created_by' => $request->user()->id,
             'jenis' => 'keluar',
-            'kategori' => 'Penggajian',
+            'kategori' => $anggaran->kategori ?? 'Penggajian',
             'nominal' => $penggajian->total_gaji,
             'tanggal' => $data['tanggal_bayar'],
             'keterangan' => "Gaji {$penggajian->nama_pegawai} periode {$penggajian->periode}",

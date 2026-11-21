@@ -81,7 +81,10 @@ Route::middleware(['auth', 'verified'])->prefix('keuangan')->name('keuangan.')->
 
         // Transaksi.
         Route::get('transaksi', [TransaksiController::class, 'index'])->name('transaksi.index');
+        Route::get('transaksi/riwayat', [TransaksiController::class, 'riwayat'])->name('transaksi.riwayat');
         Route::post('transaksi', [TransaksiController::class, 'store'])->name('transaksi.store');
+        Route::get('transaksi/{transaksi}/edit', [TransaksiController::class, 'edit'])->name('transaksi.edit');
+        Route::put('transaksi/{transaksi}', [TransaksiController::class, 'update'])->name('transaksi.update');
         Route::delete('transaksi/{transaksi}', [TransaksiController::class, 'destroy'])->name('transaksi.destroy');
 
         // Penggajian.
