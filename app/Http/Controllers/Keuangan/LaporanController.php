@@ -49,6 +49,7 @@ class LaporanController extends Controller
                 'pagu' => (float) $a->pagu,
                 'realisasi' => $a->realisasi(),
                 'rasio_serapan' => round($this->ewsService->hitungRasioSerapan($a), 2),
+                'rasio_proyeksi' => $a->rasio_proyeksi,
                 'status_ews' => $a->status_ews,
                 'status_label' => EwsService::label($a->status_ews),
             ]);

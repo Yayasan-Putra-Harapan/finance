@@ -10,7 +10,7 @@ class Anggaran extends Model
 {
     protected $fillable = [
         'unit_id', 'jenis', 'kategori', 'pagu', 'periode_mulai', 'periode_selesai',
-        'status', 'approved_by', 'approved_at', 'catatan', 'status_ews', 'status_ews_updated_at',
+        'status', 'approved_by', 'approved_at', 'catatan', 'status_ews', 'status_ews_updated_at', 'rasio_proyeksi',
     ];
 
     protected function casts(): array
@@ -21,6 +21,7 @@ class Anggaran extends Model
             'approved_at' => 'datetime',
             'status_ews_updated_at' => 'datetime',
             'pagu' => 'decimal:2',
+            'rasio_proyeksi' => 'float',
         ];
     }
 

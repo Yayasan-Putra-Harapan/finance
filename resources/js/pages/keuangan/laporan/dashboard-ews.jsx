@@ -187,6 +187,7 @@ export default function DashboardEws({
                             <th className="p-3 font-medium">Pagu</th>
                             <th className="p-3 font-medium">Realisasi</th>
                             <th className="p-3 font-medium">Rasio Serapan</th>
+                            <th className="p-3 font-medium">Rasio Proyeksi SES</th>
                             <th className="p-3 font-medium">Status</th>
                         </tr>
                     </thead>
@@ -203,6 +204,11 @@ export default function DashboardEws({
                                     {a.rasio_serapan.toFixed(2)}
                                 </td>
                                 <td className="p-3">
+                                    {a.rasio_proyeksi === null
+                                        ? '-'
+                                        : `${(a.rasio_proyeksi * 100).toFixed(1)}%`}
+                                </td>
+                                <td className="p-3">
                                     <EwsBadge status={a.status_ews} />
                                 </td>
                             </tr>
@@ -211,7 +217,7 @@ export default function DashboardEws({
                             <tr>
                                 <td
                                     className="p-3 text-muted-foreground"
-                                    colSpan={6}
+                                    colSpan={7}
                                 >
                                     Belum ada RAB pengeluaran yang disetujui.
                                 </td>

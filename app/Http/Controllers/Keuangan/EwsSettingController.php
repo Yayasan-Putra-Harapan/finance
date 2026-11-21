@@ -27,6 +27,10 @@ class EwsSettingController extends Controller
             'batas_waspada' => ['required', 'numeric', 'min:0.01'],
             'batas_kritis' => ['required', 'numeric', 'gt:batas_waspada'],
             'batas_melebihi' => ['required', 'numeric', 'gt:batas_kritis'],
+            'proyeksi_waspada' => ['sometimes', 'numeric', 'min:0.01'],
+            'proyeksi_kritis' => ['sometimes', 'numeric', 'gt:proyeksi_waspada'],
+            'proyeksi_melebihi' => ['sometimes', 'numeric', 'gt:proyeksi_kritis'],
+            'alpha_ses' => ['nullable', 'numeric', 'gt:0', 'lt:1'],
         ]);
 
         EwsSetting::current()->update([...$data, 'updated_by' => $request->user()->id]);

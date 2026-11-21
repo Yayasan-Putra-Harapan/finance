@@ -2,8 +2,10 @@
 
 namespace App\Services;
 
+use App\Models\EwsSetting;
 use App\Models\SesProjection;
 use App\Models\Transaksi;
+use App\Models\Unit;
 use Illuminate\Support\Carbon;
 
 class SesService
@@ -84,9 +86,29 @@ class SesService
     }
 
     /**
-     * Uji beberapa nilai alpha, pilih yang menghasilkan MAPE terkecil.
+     * Uji setiap nilai alpha kandidat pada satu deret: MAPE dan proyeksi periode berikutnya.
      *
-     * @return array{alpha: float, mape: float, proyeksi: float}|null null jika data historis < 6 bulan
+     * @param  list<float>  $actuals
+     * @return list<array{alpha: float, mape: float, proyeksi: float}>
+     */
+    public function ujiAlpha(array $actuals): array
+    {
+        return array_map(function (float $alpha) use ($actuals) {
+            $forecasts = $this->hitungForecast($actuals, $alpha);
+
+            return [
+                'alpha' => $alpha,
+                'mape' => $this->hitungMape($actuals, $forecasts),
+                'proyeksi' => $forecasts[count($forecasts) - 1],
+            ];
+        }, self::ALPHA_CANDIDATES);
+    }
+
+    /**
+     * Pilih alpha: tetap (EwsSetting::alpha_ses, hasil eksperimen) bila diatur admin,
+     * selain itu alpha dengan MAPE terkecil pada deret ini.
+     *
+     * @return array{alpha: float, mape: float, proyeksi: float, uji: list<array{alpha: float, mape: float, proyeksi: float}>}|null null jika data historis < 6 bulan
      */
     public function proyeksikan(int $unitId, string $kategori): ?array
     {
@@ -97,23 +119,64 @@ class SesService
         }
 
         $actuals = array_values($deret);
+        $uji = $this->ujiAlpha($actuals);
+        $tetap = EwsSetting::current()->alpha_ses;
 
-        $terbaik = null;
+        $terpilih = $uji[0];
 
-        foreach (self::ALPHA_CANDIDATES as $alpha) {
-            $forecasts = $this->hitungForecast($actuals, $alpha);
-            $mape = $this->hitungMape($actuals, $forecasts);
-
-            if ($terbaik === null || $mape < $terbaik['mape']) {
-                $terbaik = [
-                    'alpha' => $alpha,
-                    'mape' => $mape,
-                    'proyeksi' => $forecasts[count($forecasts) - 1],
-                ];
+        foreach ($uji as $baris) {
+            if ($baris['mape'] < $terpilih['mape']) {
+                $terpilih = $baris;
             }
         }
 
-        return $terbaik;
+        if ($tetap !== null) {
+            $forecasts = $this->hitungForecast($actuals, $tetap);
+            $terpilih = ['alpha' => $tetap, 'mape' => $this->hitungMape($actuals, $forecasts), 'proyeksi' => $forecasts[count($forecasts) - 1]];
+        }
+
+        return ['alpha' => $terpilih['alpha'], 'mape' => $terpilih['mape'], 'proyeksi' => $terpilih['proyeksi'], 'uji' => $uji];
+    }
+
+    /**
+     * Eksperimen peramalan (proposal Bab III, Increment 2): rata-rata MAPE tiap alpha di seluruh
+     * deret unit x kategori pengeluaran yang punya riwayat >= 6 bulan. Alpha dengan rata-rata
+     * MAPE terkecil adalah kandidat parameter tetap sistem.
+     *
+     * @return array{jumlah_deret: int, per_alpha: list<array{alpha: float, mape: float}>, terbaik: array{alpha: float, mape: float}|null}
+     */
+    public function eksperimen(): array
+    {
+        $totals = [];
+        $jumlah = 0;
+
+        foreach (Unit::query()->pluck('id') as $unitId) {
+            $kategoris = Transaksi::query()->where('unit_id', $unitId)->where('jenis', 'keluar')->distinct()->pluck('kategori');
+
+            foreach ($kategoris as $kategori) {
+                $deret = $this->deretHistoris($unitId, $kategori);
+
+                if (count($deret) < self::MIN_BULAN_HISTORIS) {
+                    continue;
+                }
+
+                $jumlah++;
+
+                foreach ($this->ujiAlpha(array_values($deret)) as $baris) {
+                    $totals[(string) $baris['alpha']][] = $baris['mape'];
+                }
+            }
+        }
+
+        $perAlpha = [];
+
+        foreach ($totals as $alpha => $mapes) {
+            $perAlpha[] = ['alpha' => (float) $alpha, 'mape' => array_sum($mapes) / count($mapes)];
+        }
+
+        $terbaik = array_reduce($perAlpha, fn ($c, $b) => $c === null || $b['mape'] < $c['mape'] ? $b : $c);
+
+        return ['jumlah_deret' => $jumlah, 'per_alpha' => $perAlpha, 'terbaik' => $terbaik];
     }
 
     /**

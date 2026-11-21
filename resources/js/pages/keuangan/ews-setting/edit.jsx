@@ -22,6 +22,86 @@ export default function EwsSettingEdit({ setting }) {
             >
                 {({ processing, errors }) => (
                     <>
+                        <p className="text-sm font-medium">
+                            Ambang rasio proyeksi SES (utama)
+                        </p>
+                        <div className="grid gap-1.5">
+                            <label
+                                className="text-sm font-medium"
+                                htmlFor="proyeksi_waspada"
+                            >
+                                Batas Waspada (proyeksi / pagu)
+                            </label>
+                            <Input
+                                id="proyeksi_waspada"
+                                name="proyeksi_waspada"
+                                type="number"
+                                step="0.01"
+                                defaultValue={setting.proyeksi_waspada}
+                                required
+                            />
+                            <InputError message={errors.proyeksi_waspada} />
+                        </div>
+                        <div className="grid gap-1.5">
+                            <label
+                                className="text-sm font-medium"
+                                htmlFor="proyeksi_kritis"
+                            >
+                                Batas Kritis (proyeksi / pagu)
+                            </label>
+                            <Input
+                                id="proyeksi_kritis"
+                                name="proyeksi_kritis"
+                                type="number"
+                                step="0.01"
+                                defaultValue={setting.proyeksi_kritis}
+                                required
+                            />
+                            <InputError message={errors.proyeksi_kritis} />
+                        </div>
+                        <div className="grid gap-1.5">
+                            <label
+                                className="text-sm font-medium"
+                                htmlFor="proyeksi_melebihi"
+                            >
+                                Batas Melebihi Anggaran (proyeksi / pagu)
+                            </label>
+                            <Input
+                                id="proyeksi_melebihi"
+                                name="proyeksi_melebihi"
+                                type="number"
+                                step="0.01"
+                                defaultValue={setting.proyeksi_melebihi}
+                                required
+                            />
+                            <InputError message={errors.proyeksi_melebihi} />
+                        </div>
+                        <div className="grid gap-1.5">
+                            <label
+                                className="text-sm font-medium"
+                                htmlFor="alpha_ses"
+                            >
+                                Alpha SES tetap (kosongkan = otomatis, MAPE terkecil)
+                            </label>
+                            <Input
+                                id="alpha_ses"
+                                name="alpha_ses"
+                                type="number"
+                                step="0.01"
+                                defaultValue={setting.alpha_ses}
+                                
+                            />
+                            <InputError message={errors.alpha_ses} />
+                        </div>
+                        <p className="text-sm text-muted-foreground">
+                            Rasio Proyeksi = (Realisasi berjalan + Proyeksi SES
+                            periode berikutnya) &divide; Pagu. Dipakai bila
+                            riwayat pengeluaran minimal 6 bulan.
+                        </p>
+                        <p className="text-sm font-medium">
+                            Ambang rasio serapan (cadangan bila riwayat kurang
+                            dari 6 bulan)
+                        </p>
                         <div className="grid gap-1.5">
                             <label
                                 className="text-sm font-medium"

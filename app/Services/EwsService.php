@@ -28,6 +28,35 @@ class EwsService
         self::STATUS_MELEBIHI => 3,
     ];
 
+    public function __construct(private readonly SesService $sesService) {}
+
+    /**
+     * Rasio proyeksi (proposal Bab III, Increment 2): (realisasi berjalan + proyeksi SES periode
+     * berikutnya) / pagu. Null bila riwayat pengeluaran unit+kategori kurang dari 6 bulan.
+     */
+    public function hitungRasioProyeksi(Anggaran $anggaran): ?float
+    {
+        $hasil = $this->sesService->proyeksikan($anggaran->unit_id, $anggaran->kategori);
+
+        if ($hasil === null || (float) $anggaran->pagu <= 0) {
+            return null;
+        }
+
+        return ($anggaran->realisasi() + $hasil['proyeksi']) / (float) $anggaran->pagu;
+    }
+
+    public function klasifikasikanProyeksi(float $rasio, bool $melebihiPagu, ?EwsSetting $setting = null): string
+    {
+        $setting ??= EwsSetting::current();
+
+        return match (true) {
+            $melebihiPagu || $rasio > $setting->proyeksi_melebihi => self::STATUS_MELEBIHI,
+            $rasio > $setting->proyeksi_kritis => self::STATUS_KRITIS,
+            $rasio > $setting->proyeksi_waspada => self::STATUS_WASPADA,
+            default => self::STATUS_AMAN,
+        };
+    }
+
     /**
      * Rasio serapan = persentase serapan aktual terhadap pace waktu periode anggaran.
      * Expected Pace = waktu berjalan / total durasi periode.
@@ -78,10 +107,19 @@ class EwsService
     {
         $setting = EwsSetting::current();
         $realisasi = $anggaran->realisasi();
-        $rasio = $this->hitungRasioSerapan($anggaran);
-        $statusBaru = $this->klasifikasikan($rasio, $realisasi > (float) $anggaran->pagu, $setting);
+        $melebihiPagu = $realisasi > (float) $anggaran->pagu;
+        $rasioProyeksi = $this->hitungRasioProyeksi($anggaran);
+
+        // Utama: rasio proyeksi SES. Cadangan (riwayat < 6 bulan): rasio serapan terhadap pace waktu.
+        $statusBaru = $rasioProyeksi !== null
+            ? $this->klasifikasikanProyeksi($rasioProyeksi, $melebihiPagu, $setting)
+            : $this->klasifikasikan($this->hitungRasioSerapan($anggaran), $melebihiPagu, $setting);
 
         $statusLama = $anggaran->status_ews;
+
+        if ($rasioProyeksi !== $anggaran->rasio_proyeksi) {
+            $anggaran->forceFill(['rasio_proyeksi' => $rasioProyeksi])->save();
+        }
 
         if ($statusBaru !== $statusLama) {
             $anggaran->forceFill([

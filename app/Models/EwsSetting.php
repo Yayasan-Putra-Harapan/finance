@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class EwsSetting extends Model
 {
-    protected $fillable = ['batas_waspada', 'batas_kritis', 'batas_melebihi', 'updated_by'];
+    protected $fillable = ['batas_waspada', 'batas_kritis', 'batas_melebihi', 'proyeksi_waspada', 'proyeksi_kritis', 'proyeksi_melebihi', 'alpha_ses', 'updated_by'];
 
     protected function casts(): array
     {
@@ -15,6 +15,10 @@ class EwsSetting extends Model
             'batas_waspada' => 'float',
             'batas_kritis' => 'float',
             'batas_melebihi' => 'float',
+            'proyeksi_waspada' => 'float',
+            'proyeksi_kritis' => 'float',
+            'proyeksi_melebihi' => 'float',
+            'alpha_ses' => 'float',
         ];
     }
 
@@ -37,6 +41,9 @@ class EwsSetting extends Model
             'batas_waspada' => 1.0,
             'batas_kritis' => 1.2,
             'batas_melebihi' => 1.5,
+            'proyeksi_waspada' => 0.8,
+            'proyeksi_kritis' => 0.9,
+            'proyeksi_melebihi' => 1.0,
         ]);
     }
 }

@@ -120,6 +120,30 @@ export default function ProyeksiSes({
                         </Card>
                     </div>
 
+                    <div className="overflow-x-auto rounded-xl border md:w-fit">
+                        <table className="text-sm">
+                            <thead className="bg-muted/50 text-left">
+                                <tr>
+                                    <th className="p-3 font-medium">Alpha</th>
+                                    <th className="p-3 font-medium">MAPE</th>
+                                    <th className="p-3 font-medium">Proyeksi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {hasil.uji.map((u) => (
+                                    <tr
+                                        key={u.alpha}
+                                        className={`border-t ${u.alpha === hasil.alpha ? 'bg-muted/40 font-medium' : ''}`}
+                                    >
+                                        <td className="p-3">{u.alpha}</td>
+                                        <td className="p-3">{u.mape.toFixed(2)}%</td>
+                                        <td className="p-3">{formatRupiah(u.proyeksi)}</td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+
                     <Form
                         {...LaporanController.simpanProyeksiSes.form(unit.id)}
                         className="w-fit"
