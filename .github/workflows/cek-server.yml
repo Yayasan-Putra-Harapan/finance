@@ -1,0 +1,29 @@
+name: cek-server
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  cek:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Cek kondisi server (hanya baca)
+        uses: appleboy/ssh-action@029f5b4aeeeb58fdfe1410a5d17f967dacf36262 # v1.2.2
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          port: ${{ secrets.SSH_PORT }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            echo "== OS =="; uname -a; whoami
+            echo "== PHP =="; php -v | head -1; which php composer
+            echo "== Deploy path =="; cd ${{ secrets.DEPLOY_PATH }} && pwd && ls -la | head -30
+            echo "== Writable =="; test -w storage && echo "storage OK" || echo "storage TIDAK writable"; test -w bootstrap/cache && echo "bootstrap/cache OK" || echo "bootstrap/cache TIDAK writable"
+            echo "== .env (nama kunci saja) =="; test -f .env && grep -oE '^(APP_ENV|APP_DEBUG|APP_URL|APP_KEY|DB_CONNECTION|DB_HOST|DB_DATABASE|MAIL_MAILER|YAYASAN_MASTER_[A-Z_]+)=' .env || echo ".env TIDAK ada"
+            echo "== APP_ENV/DEBUG =="; grep -E '^(APP_ENV|APP_DEBUG)=' .env
+            echo "== Vendor =="; test -f vendor/autoload.php && echo "vendor ada" || echo "vendor TIDAK ada"
+            echo "== Migrasi =="; php artisan migrate:status 2>&1 | tail -12
+            echo "== Cron =="; crontab -l 2>&1 | grep -i schedule || echo "cron schedule:run TIDAK ditemukan"
