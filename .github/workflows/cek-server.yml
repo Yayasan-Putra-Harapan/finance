@@ -18,12 +18,8 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            echo "== OS =="; uname -a; whoami
-            echo "== PHP =="; php -v | head -1; which php composer
-            echo "== Deploy path =="; cd ${{ secrets.DEPLOY_PATH }} && pwd && ls -la | head -30
-            echo "== Writable =="; test -w storage && echo "storage OK" || echo "storage TIDAK writable"; test -w bootstrap/cache && echo "bootstrap/cache OK" || echo "bootstrap/cache TIDAK writable"
-            echo "== .env (nama kunci saja) =="; test -f .env && grep -oE '^(APP_ENV|APP_DEBUG|APP_URL|APP_KEY|DB_CONNECTION|DB_HOST|DB_DATABASE|MAIL_MAILER|YAYASAN_MASTER_[A-Z_]+)=' .env || echo ".env TIDAK ada"
-            echo "== APP_ENV/DEBUG =="; grep -E '^(APP_ENV|APP_DEBUG)=' .env
-            echo "== Vendor =="; test -f vendor/autoload.php && echo "vendor ada" || echo "vendor TIDAK ada"
-            echo "== Migrasi =="; php artisan migrate:status 2>&1 | tail -12
-            echo "== Cron =="; crontab -l 2>&1 | grep -i schedule || echo "cron schedule:run TIDAK ditemukan"
+            echo "== HOME =="; pwd; echo $HOME
+            echo "== isi home =="; ls -la ~ | head -40
+            echo "== kandidat folder domain =="; ls -d ~/public_html ~/domains/* ~/*/public ~/finance* ~/*kalanalabs* 2>/dev/null
+            echo "== folder yang punya artisan =="; find ~ -maxdepth 4 -name artisan -not -path "*/vendor/*" 2>/dev/null
+            echo "== cron =="; crontab -l 2>&1 | head
